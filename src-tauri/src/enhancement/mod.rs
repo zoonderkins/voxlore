@@ -1,5 +1,6 @@
 pub mod ollama;
 pub mod openai_compat;
+pub mod tw_dict;
 
 use serde::{Deserialize, Serialize};
 
@@ -23,6 +24,7 @@ pub struct EnhancementConfig {
     pub model: String,
     pub custom_prompt: Option<String>,
     pub source_has_mixed_script: bool,
+    pub tw_lexicon_hints: Vec<String>,
 }
 
 /// Trait for LLM-based text enhancement engines.
@@ -54,6 +56,11 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
                     prompt.push_str(
                         "若原文含中英混說，英文品牌名、產品名、API 名稱、程式碼片段請保留原文，不翻譯、不改大小寫。",
                     );
+                }
+                if !config.tw_lexicon_hints.is_empty() {
+                    prompt.push_str("若語句符合以下台灣常見口語對照，請優先使用對應詞彙：");
+                    prompt.push_str(&config.tw_lexicon_hints.join("；"));
+                    prompt.push('。');
                 }
                 prompt
             } else if is_zh_cn {

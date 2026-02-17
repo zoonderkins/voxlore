@@ -2,6 +2,7 @@ use tauri::State;
 
 use crate::enhancement::openai_compat::OpenAiCompatEngine;
 use crate::enhancement::ollama::OllamaEngine;
+use crate::enhancement::tw_dict::{apply_tw_lexicon_dict, collect_relevant_hints};
 use crate::enhancement::{EnhancementConfig, EnhancementEngine, EnhancementMode};
 use crate::error::AppError;
 use crate::security::keystore::KeyStore;
@@ -35,15 +36,17 @@ pub async fn enhance_text(
         is_local
     );
 
+    let language = language.unwrap_or_else(|| "en".to_string());
     let config = EnhancementConfig {
         mode: EnhancementMode::FixGrammar,
-        language: language.unwrap_or_else(|| "en".to_string()),
+        language: language.clone(),
         model,
         custom_prompt: None,
         source_has_mixed_script: has_mixed_script(&text),
+        tw_lexicon_hints: collect_relevant_hints(&text, &language),
     };
 
-    match provider.as_str() {
+    let enhanced = match provider.as_str() {
         "ollama" => {
             let engine = OllamaEngine::new(None);
             engine.enhance(&text, &config).await
@@ -80,5 +83,7 @@ pub async fn enhance_text(
             };
             engine.enhance(&text, &config).await
         }
-    }
+    }?;
+
+    Ok(apply_tw_lexicon_dict(&enhanced, &language))
 }
