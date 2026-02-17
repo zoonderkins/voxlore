@@ -1,0 +1,16 @@
+{
+  "identifier": "main-window-capability",
+  "description": "Main settings window - full access",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:window:allow-create",
+    "core:window:allow-close",
+    "core:window:allow-set-size",
+    "core:window:allow-set-position",
+    "core:event:default",
+    "store:default",
+    "global-shortcut:default"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "identifier": "setup-window-capability",
+  "description": "Setup wizard - settings save and API key access",
+  "windows": ["setup"],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:event:default",
+    "store:default"
+  ]
+}

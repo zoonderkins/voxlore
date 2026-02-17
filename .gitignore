@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+target/
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Vosk models (downloaded at runtime)
+models/
+
+# OS
+Thumbs.db
+
+# Tauri build artifacts
+*.dmg
+*.msi
+*.AppImage
+*.deb
+*.rpm
+
+# Config backups
+*.bak-*
+
+# Serena MCP
+.serena/
+
+# Local agent / assistant workdirs
+.claude/
+.codex/
+
+# Local screenshots
+screenshot/
+screenshots/

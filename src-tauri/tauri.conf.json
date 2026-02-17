@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nicegui-org/nicegui-tauri/refs/heads/main/nicegui_tauri/tauri_config.schema.json",
+  "productName": "Voxlore",
+  "version": "0.1.0",
+  "identifier": "app.voxlore",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Voxlore",
+        "width": 640,
+        "height": 720,
+        "minWidth": 640,
+        "minHeight": 640,
+        "resizable": true,
+        "center": true,
+        "decorations": true,
+        "transparent": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' https://*; style-src 'self' 'unsafe-inline'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "infoPlist": "./Info.plist",
+      "frameworks": ["./lib/libvosk.dylib"],
+      "signingIdentity": "-",
+      "hardenedRuntime": false
+    }
+  }
+}

@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voxlore | Voice-to-text desktop app</title>
+    <meta
+      name="description"
+      content="Voxlore lets you hold a hotkey to speak, release to transcribe, and paste back to your target app."
+    />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --card: #ffffff;
+        --ink: #162033;
+        --sub: #4f5d78;
+        --brand: #16a34a;
+        --brand-ink: #0a6a2b;
+        --line: #d9e2ef;
+        --soft: #ecf8f1;
+      }
+      html[data-theme="dark"] {
+        --bg: #0f1320;
+        --card: #151c2d;
+        --ink: #eaf0ff;
+        --sub: #a6b4d0;
+        --brand: #2ac766;
+        --brand-ink: #bff5d1;
+        --line: #2a3550;
+        --soft: #162736;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "PingFang TC", "Noto Sans TC", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at 15% -10%, color-mix(in srgb, var(--brand) 20%, transparent) 0%, var(--bg) 35%), var(--bg);
+        line-height: 1.6;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 12px 16px;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--line);
+      }
+      .control {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--card);
+        color: var(--ink);
+        padding: 8px 10px;
+        font-weight: 600;
+      }
+      .wrap {
+        width: min(1080px, 92vw);
+        margin: 0 auto;
+      }
+      .hero {
+        padding: 48px 0 36px;
+      }
+      .badge {
+        display: inline-block;
+        border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--line));
+        background: color-mix(in srgb, var(--brand) 12%, var(--card));
+        color: var(--brand-ink);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 16px 0 10px;
+        font-size: clamp(32px, 5.6vw, 56px);
+        line-height: 1.1;
+      }
+      .lead {
+        margin: 0;
+        color: var(--sub);
+        max-width: 760px;
+        font-size: clamp(17px, 2.4vw, 22px);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+        margin: 30px 0 0;
+      }
+      .card {
+        grid-column: span 4;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 8px 30px rgba(20, 42, 70, 0.06);
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--sub);
+      }
+      section {
+        padding: 24px 0 8px;
+      }
+      h2 {
+        font-size: clamp(24px, 4vw, 34px);
+        margin: 0 0 10px;
+      }
+      .problems {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 22px;
+      }
+      .problems ul {
+        margin: 10px 0 0;
+        padding-left: 20px;
+        color: var(--sub);
+      }
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .step {
+        background: var(--soft);
+        border: 1px solid color-mix(in srgb, var(--brand) 20%, var(--line));
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .step b {
+        color: var(--brand-ink);
+      }
+      .cta {
+        margin: 34px auto 64px;
+        background: linear-gradient(135deg, #0e6d34, #1ba852);
+        color: #fff;
+        border-radius: 22px;
+        padding: 28px;
+      }
+      .cta p {
+        margin: 0 0 12px;
+        opacity: 0.95;
+      }
+      .btn {
+        display: inline-block;
+        background: #fff;
+        color: #0d6a31;
+        padding: 10px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 800;
+      }
+      .btn-ghost {
+        display: inline-block;
+        margin-left: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .cta-note {
+        margin-top: 10px;
+        font-size: 14px;
+        opacity: 0.95;
+      }
+      footer {
+        color: var(--sub);
+        font-size: 14px;
+        padding: 0 0 28px;
+      }
+      @media (max-width: 900px) {
+        .card {
+          grid-column: span 6;
+        }
+        .flow {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .hero {
+          padding-top: 32px;
+        }
+        .card {
+          grid-column: span 12;
+        }
+        .flow {
+          grid-template-columns: 1fr;
+        }
+        .btn-ghost {
+          margin-left: 0;
+          margin-top: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <select id="langSwitch" class="control" aria-label="Language">
+        <option value="en">English</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="zh-CN">简体中文</option>
+      </select>
+      <button id="themeSwitch" class="control" type="button">🌙 Dark</button>
+    </div>
+
+    <header class="hero">
+      <div class="wrap">
+        <span class="badge" data-i18n="badge">Voxlore · macOS Voice Workflow</span>
+        <h1 data-i18n="heroTitle">Hold to talk, release to write.</h1>
+        <p class="lead" data-i18n="heroLead">
+          Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3 data-i18n="f1Title">Auto focus & paste</h3>
+            <p data-i18n="f1Body">Return to your previous app and paste automatically.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="f2Title">Local + cloud modes</h3>
+            <p data-i18n="f2Body">Use local Vosk or cloud STT providers.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="f3Title">Chinese punctuation enhancement</h3>
+            <p data-i18n="f3Body">Text Enhancement improves punctuation and readability.</p>
+          </article>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="wrap problems">
+        <h2 data-i18n="painTitle">What problems does Voxlore solve?</h2>
+        <ul>
+          <li data-i18n="pain1">Voice input often records but fails to insert into the right app.</li>
+          <li data-i18n="pain2">Cloud API failures are hard to debug without clear errors.</li>
+          <li data-i18n="pain3">Chinese transcripts often need punctuation fixes.</li>
+          <li data-i18n="pain4">Switching models/providers is slow and hard to compare.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2 data-i18n="flowTitle">Workflow</h2>
+        <div class="flow">
+          <div class="step" data-i18n="step1"><b>1.</b> Start recording with hotkey</div>
+          <div class="step" data-i18n="step2"><b>2.</b> Release to stop and transcribe</div>
+          <div class="step" data-i18n="step3"><b>3.</b> Optional AI enhancement</div>
+          <div class="step" data-i18n="step4"><b>4.</b> Auto-paste to target app</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap cta">
+        <h2 data-i18n="ctaTitle">Ready to use your voice as a keyboard?</h2>
+        <p data-i18n="ctaBody">Download Voxlore and finish setup in minutes.</p>
+        <a class="btn" href="#" data-i18n="downloadBtn" aria-label="Download Voxlore">Download Voxlore</a>
+        <a class="btn-ghost" href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">GitHub</a>
+        <p class="cta-note">
+          <span data-i18n="starPrefix">If you like Voxlore, please visit</span>
+          <a href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer" style="color:#fff; font-weight:700;">github.com/zoonderkins/voxlore</a>
+          <span data-i18n="starSuffix">and leave a Star.</span>
+        </p>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      © 2026 Voxlore. Built for fast multilingual dictation.
+      <br />
+      GitHub:
+      <a href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">https://github.com/zoonderkins/voxlore</a>
+    </footer>
+
+    <script>
+      const i18n = {
+        en: {
+          badge: "Voxlore · macOS Voice Workflow",
+          heroTitle: "Hold to talk, release to write.",
+          heroLead: "Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.",
+          f1Title: "Auto focus & paste",
+          f1Body: "Return to your previous app and paste automatically.",
+          f2Title: "Local + cloud modes",
+          f2Body: "Use local Vosk or cloud STT providers.",
+          f3Title: "Chinese punctuation enhancement",
+          f3Body: "Text Enhancement improves punctuation and readability.",
+          painTitle: "What problems does Voxlore solve?",
+          pain1: "Voice input often records but fails to insert into the right app.",
+          pain2: "Cloud API failures are hard to debug without clear errors.",
+          pain3: "Chinese transcripts often need punctuation fixes.",
+          pain4: "Switching models/providers is slow and hard to compare.",
+          flowTitle: "Workflow",
+          step1: "<b>1.</b> Start recording with hotkey",
+          step2: "<b>2.</b> Release to stop and transcribe",
+          step3: "<b>3.</b> Optional AI enhancement",
+          step4: "<b>4.</b> Auto-paste to target app",
+          ctaTitle: "Ready to use your voice as a keyboard?",
+          ctaBody: "Download Voxlore and finish setup in minutes.",
+          downloadBtn: "Download Voxlore",
+          starPrefix: "If you like Voxlore, please visit",
+          starSuffix: "and leave a Star."
+        },
+        "zh-TW": {
+          badge: "Voxlore · macOS 語音工作流",
+          heroTitle: "按住說話，放開即成文。",
+          heroLead: "Voxlore 把錄音、轉寫、潤稿與貼回原視窗串成自然流程。",
+          f1Title: "自動回焦貼上",
+          f1Body: "錄製結束後自動回切到原本工作視窗並貼上。",
+          f2Title: "本地 + 雲端雙模式",
+          f2Body: "可選本地 Vosk 或雲端 STT 供應商。",
+          f3Title: "中文標點優化",
+          f3Body: "Text Enhancement 可優化標點與可讀性。",
+          painTitle: "Voxlore 解決哪些痛點？",
+          pain1: "語音輸入常卡在錄得到，但貼不到正確視窗。",
+          pain2: "雲端 API 失敗時，沒有清楚錯誤不易排查。",
+          pain3: "中文轉寫常缺標點，送出前仍要再修。",
+          pain4: "供應商與模型切換成本高，不好比較。",
+          flowTitle: "工作流程",
+          step1: "<b>1.</b> 快捷鍵開始錄製",
+          step2: "<b>2.</b> 放開即停止並轉寫",
+          step3: "<b>3.</b> 可選 AI 文字潤稿",
+          step4: "<b>4.</b> 自動貼回目標 App",
+          ctaTitle: "準備好把語音當鍵盤了嗎？",
+          ctaBody: "下載 Voxlore，幾分鐘內完成設定就能使用。",
+          downloadBtn: "下載 Voxlore",
+          starPrefix: "喜歡 Voxlore 的話，歡迎到",
+          starSuffix: "幫我們按個 Star。"
+        },
+        "zh-CN": {
+          badge: "Voxlore · macOS 语音工作流",
+          heroTitle: "按住说话，松开即成文。",
+          heroLead: "Voxlore 把录音、转写、润色和回填文本整合为自然流程。",
+          f1Title: "自动回焦粘贴",
+          f1Body: "录制结束后自动切回原工作窗口并粘贴。",
+          f2Title: "本地 + 云端双模式",
+          f2Body: "可选本地 Vosk 或云端 STT 提供商。",
+          f3Title: "中文标点优化",
+          f3Body: "Text Enhancement 可优化标点与可读性。",
+          painTitle: "Voxlore 解决哪些痛点？",
+          pain1: "语音输入常出现录得到，但贴不到正确窗口。",
+          pain2: "云端 API 失败时缺少清晰错误信息，排查成本高。",
+          pain3: "中文转写常缺标点，发送前还需二次编辑。",
+          pain4: "切换模型/提供商成本高，效果难比较。",
+          flowTitle: "工作流程",
+          step1: "<b>1.</b> 快捷键开始录制",
+          step2: "<b>2.</b> 松开即停止并转写",
+          step3: "<b>3.</b> 可选 AI 文字润色",
+          step4: "<b>4.</b> 自动粘贴回目标 App",
+          ctaTitle: "准备好把语音当键盘了吗？",
+          ctaBody: "下载 Voxlore，几分钟完成设置即可使用。",
+          downloadBtn: "下载 Voxlore",
+          starPrefix: "如果你喜欢 Voxlore，欢迎到",
+          starSuffix: "给我们点个 Star。"
+        }
+      };
+
+      const langSwitch = document.getElementById("langSwitch");
+      const themeSwitch = document.getElementById("themeSwitch");
+
+      function applyLang(lang) {
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          const text = i18n[lang]?.[key];
+          if (text) el.innerHTML = text;
+        });
+        localStorage.setItem("voxlore_site_lang", lang);
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        themeSwitch.textContent = theme === "dark" ? "☀️ Light" : "🌙 Dark";
+        localStorage.setItem("voxlore_site_theme", theme);
+      }
+
+      const savedLang = localStorage.getItem("voxlore_site_lang") || "en";
+      const savedTheme = localStorage.getItem("voxlore_site_theme") || "light";
+
+      langSwitch.value = savedLang;
+      applyLang(savedLang);
+      applyTheme(savedTheme);
+
+      langSwitch.addEventListener("change", (e) => applyLang(e.target.value));
+      themeSwitch.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme") || "light";
+        applyTheme(current === "light" ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

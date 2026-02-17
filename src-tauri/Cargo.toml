@@ -1,0 +1,42 @@
+[package]
+name = "voxlore"
+version = "0.1.0"
+description = "Privacy-first voice-to-text desktop app"
+authors = ["Voxlore Contributors"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/voxlore/voxlore"
+
+[lib]
+name = "voxlore_lib"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[features]
+default = ["vosk-stt"]
+vosk-stt = ["dep:vosk"]
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "devtools"] }
+tauri-plugin-store = "2"
+keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json", "stream", "multipart"] }
+chrono = "0.4"
+cpal = "0.15"
+vosk = { version = "0.3", optional = true }
+zip = "2"
+futures-util = "0.3"
+ferrous-opencc = { version = "0.3", features = ["s2t-conversion"] }
+base64 = "0.22"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-global-shortcut = "2"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+cocoa = "0.26"

@@ -1,0 +1,69 @@
+{
+  "common": {
+    "appName": "Voxlore",
+    "tagline": "语音转文字，直接输入到光标位置。",
+    "ready": "就绪",
+    "recording": "录音中",
+    "processing": "处理中...",
+    "error": "错误",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "back": "返回",
+    "next": "下一步",
+    "done": "完成",
+    "continue": "继续",
+    "settings": "设置",
+    "about": "关于"
+  },
+  "setup": {
+    "voiceProvider": {
+      "title": "欢迎使用 Voxlore",
+      "subtitle": "在光标位置直接输入语音转文字。让我们开始设置。"
+    },
+    "enhancement": {
+      "title": "文字增强",
+      "subtitle": "LLM 可以修正语法、添加标点符号，并整理你的转录文字。"
+    },
+    "permissions": {
+      "title": "权限",
+      "subtitle": "Voxlore 需要麦克风权限来录音，以及辅助功能权限来输入文字。"
+    },
+    "howToUse": {
+      "title": "使用方式",
+      "subtitle": "两种快捷键控制语音输入。"
+    },
+    "completion": {
+      "title": "设置完成！",
+      "subtitle": "Voxlore 已准备就绪。你可以随时在设置中修改。"
+    }
+  },
+  "settings": {
+    "voiceProvider": "语音提供者",
+    "enhancement": "文字增强",
+    "floatingWindow": "浮动窗口",
+    "shortcuts": "快捷键",
+    "language": "语言",
+    "enableEnhancement": "启用增强",
+    "enableEnhancementDesc": "改善准确度、添加标点符号并格式化文字",
+    "showFloatingWindow": "显示浮动窗口",
+    "showFloatingWindowDesc": "在浮动面板中显示状态与进度",
+    "previewBeforeInsert": "插入前预览",
+    "previewBeforeInsertDesc": "检阅转录结果，点击应用后插入",
+    "pushToTalk": "按住说话",
+    "pushToTalkDesc": "按住录音，松开后转录并插入",
+    "toggleMode": "切换模式",
+    "toggleModeDesc": "按一次开始，再按一次停止并插入",
+    "interfaceLanguage": "界面语言",
+    "recordingOutput": "录制输出",
+    "saveRecordingsTo": "录音文件保存位置",
+    "recordingPathPlaceholder": "留空则使用默认目录",
+    "resetToDefault": "重置为默认值",
+    "cloudTimeoutSeconds": "云端超时（秒）",
+    "cloudTimeoutDesc": "用于云端语音识别服务。范围：5 到 180 秒。",
+    "debugLogs": "调试日志",
+    "debugLogsDesc": "启用详细的 UI 与流程日志",
+    "rightClickDevtools": "右键打开开发者工具",
+    "rightClickDevtoolsDesc": "允许右键打开开发者工具"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "common": {
+    "appName": "Voxlore",
+    "tagline": "Voice-to-text that types where your cursor is.",
+    "ready": "Ready",
+    "recording": "Recording",
+    "processing": "Processing...",
+    "error": "Error",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "continue": "Continue",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "setup": {
+    "voiceProvider": {
+      "title": "Welcome to Voxlore",
+      "subtitle": "Voice-to-text that types where your cursor is. Let's get you set up."
+    },
+    "enhancement": {
+      "title": "Text Enhancement",
+      "subtitle": "An LLM can fix grammar, add punctuation, and clean up your transcription."
+    },
+    "permissions": {
+      "title": "Permissions",
+      "subtitle": "Voxlore needs microphone access to record and accessibility access to type text."
+    },
+    "howToUse": {
+      "title": "How to Use",
+      "subtitle": "Two shortcuts to control voice input."
+    },
+    "completion": {
+      "title": "You're all set!",
+      "subtitle": "Voxlore is ready to use. You can change any of these settings later."
+    }
+  },
+  "settings": {
+    "voiceProvider": "Voice Provider",
+    "enhancement": "Text Enhancement",
+    "floatingWindow": "Floating Window",
+    "shortcuts": "Shortcuts",
+    "language": "Language",
+    "enableEnhancement": "Enable enhancement",
+    "enableEnhancementDesc": "Improve accuracy, add punctuation, and format text",
+    "showFloatingWindow": "Show floating window",
+    "showFloatingWindowDesc": "Display status and progress in a floating panel",
+    "previewBeforeInsert": "Preview before inserting",
+    "previewBeforeInsertDesc": "Review transcription and click Apply to insert",
+    "pushToTalk": "Push-to-talk",
+    "pushToTalkDesc": "Hold to record, release to transcribe and insert",
+    "toggleMode": "Toggle mode",
+    "toggleModeDesc": "Press to start, press again to stop and insert",
+    "interfaceLanguage": "Interface language",
+    "recordingOutput": "Recording Output",
+    "saveRecordingsTo": "Save recordings to",
+    "recordingPathPlaceholder": "Leave empty for default directory",
+    "resetToDefault": "Reset to Default",
+    "cloudTimeoutSeconds": "Cloud timeout (seconds)",
+    "cloudTimeoutDesc": "Used by cloud STT providers. Range: 5 - 180 seconds.",
+    "debugLogs": "Debug logs",
+    "debugLogsDesc": "Enable detailed UI + pipeline logs",
+    "rightClickDevtools": "Right-click DevTools",
+    "rightClickDevtoolsDesc": "Allow right click to open developer tools"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "common": {
+    "appName": "Voxlore",
+    "tagline": "語音轉文字，直接輸入到游標位置。",
+    "ready": "就緒",
+    "recording": "錄音中",
+    "processing": "處理中...",
+    "error": "錯誤",
+    "cancel": "取消",
+    "confirm": "確認",
+    "save": "儲存",
+    "back": "返回",
+    "next": "下一步",
+    "done": "完成",
+    "continue": "繼續",
+    "settings": "設定",
+    "about": "關於"
+  },
+  "setup": {
+    "voiceProvider": {
+      "title": "歡迎使用 Voxlore",
+      "subtitle": "在游標位置直接輸入語音轉文字。讓我們開始設定。"
+    },
+    "enhancement": {
+      "title": "文字增強",
+      "subtitle": "LLM 可以修正文法、新增標點符號，並整理你的轉錄文字。"
+    },
+    "permissions": {
+      "title": "權限",
+      "subtitle": "Voxlore 需要麥克風權限來錄音，以及輔助使用權限來輸入文字。"
+    },
+    "howToUse": {
+      "title": "使用方式",
+      "subtitle": "兩種快捷鍵控制語音輸入。"
+    },
+    "completion": {
+      "title": "設定完成！",
+      "subtitle": "Voxlore 已準備就緒。你可以隨時在設定中修改。"
+    }
+  },
+  "settings": {
+    "voiceProvider": "語音提供者",
+    "enhancement": "文字增強",
+    "floatingWindow": "浮動視窗",
+    "shortcuts": "快捷鍵",
+    "language": "語言",
+    "enableEnhancement": "啟用增強",
+    "enableEnhancementDesc": "改善準確度、新增標點符號並格式化文字",
+    "showFloatingWindow": "顯示浮動視窗",
+    "showFloatingWindowDesc": "在浮動面板中顯示狀態與進度",
+    "previewBeforeInsert": "插入前預覽",
+    "previewBeforeInsertDesc": "檢閱轉錄結果，點擊套用後插入",
+    "pushToTalk": "按住說話",
+    "pushToTalkDesc": "按住錄音，放開後轉錄並插入",
+    "toggleMode": "切換模式",
+    "toggleModeDesc": "按一次開始，再按一次停止並插入",
+    "interfaceLanguage": "介面語言",
+    "recordingOutput": "錄製輸出",
+    "saveRecordingsTo": "錄音檔儲存位置",
+    "recordingPathPlaceholder": "留空則使用預設資料夾",
+    "resetToDefault": "還原為預設值",
+    "cloudTimeoutSeconds": "雲端逾時（秒）",
+    "cloudTimeoutDesc": "用於雲端語音辨識服務。範圍：5 到 180 秒。",
+    "debugLogs": "除錯紀錄",
+    "debugLogsDesc": "啟用詳細的 UI 與流程紀錄",
+    "rightClickDevtools": "右鍵開啟開發工具",
+    "rightClickDevtoolsDesc": "允許按滑鼠右鍵開啟開發者工具"
+  }
+}

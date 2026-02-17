@@ -1,0 +1,11 @@
+{
+  "identifier": "floating-window-capability",
+  "description": "Floating recording widget - events and self-close",
+  "windows": ["floating"],
+  "permissions": [
+    "core:default",
+    "core:event:default",
+    "core:event:allow-emit",
+    "core:window:allow-close"
+  ]
+}
