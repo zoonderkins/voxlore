@@ -6,6 +6,16 @@ use crate::enhancement::{EnhancementConfig, EnhancementEngine, EnhancementMode};
 use crate::error::AppError;
 use crate::security::keystore::KeyStore;
 
+fn has_mixed_script(input: &str) -> bool {
+    let has_cjk = input.chars().any(|ch| {
+        ('\u{4E00}'..='\u{9FFF}').contains(&ch)
+            || ('\u{3400}'..='\u{4DBF}').contains(&ch)
+            || ('\u{F900}'..='\u{FAFF}').contains(&ch)
+    });
+    let has_latin = input.chars().any(|ch| ch.is_ascii_alphabetic());
+    has_cjk && has_latin
+}
+
 /// Enhance text using the specified LLM provider.
 #[tauri::command]
 pub async fn enhance_text(
@@ -30,6 +40,7 @@ pub async fn enhance_text(
         language: language.unwrap_or_else(|| "en".to_string()),
         model,
         custom_prompt: None,
+        source_has_mixed_script: has_mixed_script(&text),
     };
 
     match provider.as_str() {

@@ -22,6 +22,7 @@ pub struct EnhancementConfig {
     pub language: String,
     pub model: String,
     pub custom_prompt: Option<String>,
+    pub source_has_mixed_script: bool,
 }
 
 /// Trait for LLM-based text enhancement engines.
@@ -36,20 +37,49 @@ pub trait EnhancementEngine: Send + Sync {
 pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
     let lang = config.language.to_lowercase();
     let is_zh_tw = lang == "zh-tw" || lang == "zh";
+    let is_zh_cn = lang == "zh-cn";
 
     match config.mode {
         EnhancementMode::FixGrammar => {
             if is_zh_tw {
-                "請將以下語音轉文字內容修正為「臺灣繁體中文」，依語氣停頓補上自然標點（，。！？）；\
+                let mut prompt =
+                    "請將以下語音轉文字內容修正為「臺灣繁體中文」，依語氣停頓補上自然標點（，。！？）；\
                  修正常見同音字與錯字，但不要改變原意、不要擴寫。\
+                 用詞與字形請優先遵循教育部《重編國語辭典修訂本》與《異體字字典》，\
+                 標點請優先遵循教育部《重訂標點符號手冊》，\
+                 若涉及台語常用詞可參照教育部《臺灣台語常用詞辭典》。\
                  只回傳修正後文字。"
-                    .to_string()
+                        .to_string();
+                if config.source_has_mixed_script {
+                    prompt.push_str(
+                        "若原文含中英混說，英文品牌名、產品名、API 名稱、程式碼片段請保留原文，不翻譯、不改大小寫。",
+                    );
+                }
+                prompt
+            } else if is_zh_cn {
+                let mut prompt =
+                    "请将以下语音转文字内容修正为「简体中文」，按语气停顿补上自然标点（，。！？）；\
+                 修正常见同音字与错字，但不要改变原意、不要扩写。\
+                 只返回修正后的文本。"
+                        .to_string();
+                if config.source_has_mixed_script {
+                    prompt.push_str(
+                        "若原文含中英混说，英文品牌名、产品名、API 名称、代码片段请保留原文，不翻译、不改大小写。",
+                    );
+                }
+                prompt
             } else {
-                format!(
+                let mut prompt = format!(
                     "Fix grammar and spelling errors in the following {} text. \
                      Return only the corrected text, nothing else.",
                     config.language
-                )
+                );
+                if config.source_has_mixed_script {
+                    prompt.push_str(
+                        " If the input mixes languages, preserve brand names, product names, API names, and code snippets exactly as written.",
+                    );
+                }
+                prompt
             }
         }
         EnhancementMode::AddPunctuation => format!(

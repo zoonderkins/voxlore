@@ -12,6 +12,22 @@ Hold the shortcut, speak, release, and Voxlore transcribes then inserts text bac
 - Optimized for Traditional Chinese (Taiwan), Simplified Chinese, and multilingual workflows
 - Privacy-first: API keys are managed by the user
 
+## Messaging (Short / Long)
+
+### Short
+
+- **Understands intent, not just verbatim transcription.**
+- **Reliable across tech, legal, and everyday language.**
+- **Handles mixed Traditional Chinese + English and Taiwan-style loanword pronunciations (e.g., `baku` -> back / move backward).**
+
+### Long
+
+- **Intent-first output**: spoken thoughts are normalized into usable text, not raw word-by-word dumps.
+- **Tech-language friendly**: preserves technical terms, English jargon, abbreviations, API names, and code-like tokens.
+- **Legal-tone stability**: keeps precise wording and reduces meaning drift in formal/legal-style phrasing.
+- **Common-sense cleanup**: adds punctuation, removes filler words, and fixes frequent speech-recognition artifacts.
+- **Taiwan mixed-language adaptation**: better handling for Traditional Chinese + English and common Taiwan loanword pronunciations, such as interpreting `baku` as back / move backward by context.
+
 ## Core Features
 
 - Push-to-talk voice input (`Option+Space`)

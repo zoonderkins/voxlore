@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Input, Button } from "./ui";
 import { saveApiKey, hasApiKey, deleteApiKey } from "../lib/tauri";
 import { debugUiEvent } from "../lib/debug";
@@ -9,6 +10,7 @@ interface ApiKeyInputProps {
 }
 
 export function ApiKeyInput({ provider, getKeyUrl }: ApiKeyInputProps) {
+  const { t } = useTranslation();
   const [key, setKey] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,7 +70,7 @@ export function ApiKeyInput({ provider, getKeyUrl }: ApiKeyInputProps) {
             ••••••••••••
           </div>
           <Button variant="ghost" size="sm" onClick={handleDelete} disabled={loading}>
-            Remove
+            {t("settings.apiKey.remove")}
           </Button>
         </div>
       </div>
@@ -77,9 +79,9 @@ export function ApiKeyInput({ provider, getKeyUrl }: ApiKeyInputProps) {
 
   return (
     <Input
-      label="API Key"
+      label={t("settings.apiKey.label")}
       type="password"
-      placeholder="Enter API key..."
+      placeholder={t("settings.apiKey.placeholder")}
       value={key}
       onChange={(e) => setKey(e.target.value)}
       onKeyDown={(e) => e.key === "Enter" && handleSave()}
@@ -88,10 +90,10 @@ export function ApiKeyInput({ provider, getKeyUrl }: ApiKeyInputProps) {
           {key.trim() && (
             <>
               <Button variant="ghost" size="sm" onClick={handleCancel} disabled={loading}>
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button variant="primary" size="sm" onClick={handleSave} disabled={loading}>
-                Save
+                {t("common.save")}
               </Button>
             </>
           )}
@@ -102,7 +104,7 @@ export function ApiKeyInput({ provider, getKeyUrl }: ApiKeyInputProps) {
               rel="noopener noreferrer"
               className="text-xs text-accent hover:underline whitespace-nowrap"
             >
-              Get API Key
+              {t("settings.apiKey.get")}
             </a>
           )}
         </div>
