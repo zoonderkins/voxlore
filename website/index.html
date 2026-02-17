@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Voxlore | Voice-to-text desktop app</title>
+    <title>Voxlore | Intent-first voice typing</title>
     <meta
       name="description"
-      content="Voxlore lets you hold a hotkey to speak, release to transcribe, and paste back to your target app."
+      content="Voxlore is an intent-first voice workflow tool for multilingual writing, Taiwan slang normalization, and fast insertion."
     />
     <style>
       :root {
@@ -219,23 +219,23 @@
 
     <header class="hero">
       <div class="wrap">
-        <span class="badge" data-i18n="badge">Voxlore · macOS Voice Workflow</span>
-        <h1 data-i18n="heroTitle">Hold to talk, release to write.</h1>
+        <span class="badge" data-i18n="badge">Voxlore v0.1.1 · macOS Voice Workflow</span>
+        <h1 data-i18n="heroTitle">Speak intent, not just words.</h1>
         <p class="lead" data-i18n="heroLead">
           Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.
         </p>
         <div class="grid">
           <article class="card">
-            <h3 data-i18n="f1Title">Auto focus & paste</h3>
-            <p data-i18n="f1Body">Return to your previous app and paste automatically.</p>
+            <h3 data-i18n="f1Title">Intent-first enhancement</h3>
+            <p data-i18n="f1Body">Turns spoken thoughts into usable sentences, not raw transcript dumps.</p>
           </article>
           <article class="card">
-            <h3 data-i18n="f2Title">Local + cloud modes</h3>
-            <p data-i18n="f2Body">Use local Vosk or cloud STT providers.</p>
+            <h3 data-i18n="f2Title">Taiwan slang lexicon</h3>
+            <p data-i18n="f2Body">Built-in normalization for phrases like qq/哭哭, Y2K, Z世代, I人/E人.</p>
           </article>
           <article class="card">
-            <h3 data-i18n="f3Title">Chinese punctuation enhancement</h3>
-            <p data-i18n="f3Body">Text Enhancement improves punctuation and readability.</p>
+            <h3 data-i18n="f3Title">Tech + legal language safe</h3>
+            <p data-i18n="f3Body">Preserves terminology, API names, and formal wording with better common-sense cleanup.</p>
           </article>
         </div>
       </div>
@@ -243,12 +243,12 @@
 
     <section>
       <div class="wrap problems">
-        <h2 data-i18n="painTitle">What problems does Voxlore solve?</h2>
+        <h2 data-i18n="painTitle">Why Voxlore is different</h2>
         <ul>
-          <li data-i18n="pain1">Voice input often records but fails to insert into the right app.</li>
-          <li data-i18n="pain2">Cloud API failures are hard to debug without clear errors.</li>
-          <li data-i18n="pain3">Chinese transcripts often need punctuation fixes.</li>
-          <li data-i18n="pain4">Switching models/providers is slow and hard to compare.</li>
+          <li data-i18n="pain1">Understands intent instead of only mirroring every spoken filler word.</li>
+          <li data-i18n="pain2">Normalizes Taiwan internet slang, homophones, and youth phrases into cleaner output.</li>
+          <li data-i18n="pain3">Handles Traditional Chinese + English mixed wording more naturally.</li>
+          <li data-i18n="pain4">Keeps technical and legal phrasing stable while still improving readability.</li>
         </ul>
       </div>
     </section>
@@ -259,7 +259,7 @@
         <div class="flow">
           <div class="step" data-i18n="step1"><b>1.</b> Start recording with hotkey</div>
           <div class="step" data-i18n="step2"><b>2.</b> Release to stop and transcribe</div>
-          <div class="step" data-i18n="step3"><b>3.</b> Optional AI enhancement</div>
+          <div class="step" data-i18n="step3"><b>3.</b> AI enhancement + TW lexicon normalization</div>
           <div class="step" data-i18n="step4"><b>4.</b> Auto-paste to target app</div>
         </div>
       </div>
@@ -269,7 +269,7 @@
       <div class="wrap cta">
         <h2 data-i18n="ctaTitle">Ready to use your voice as a keyboard?</h2>
         <p data-i18n="ctaBody">Download Voxlore and finish setup in minutes.</p>
-        <a class="btn" href="#" data-i18n="downloadBtn" aria-label="Download Voxlore">Download Voxlore</a>
+        <a class="btn" href="https://github.com/zoonderkins/voxlore/releases/download/v0.1.1/Voxlore_0.1.1_aarch64.dmg" data-i18n="downloadBtn" aria-label="Download Voxlore">Download Voxlore</a>
         <a class="btn-ghost" href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">GitHub</a>
         <p class="cta-note">
           <span data-i18n="starPrefix">If you like Voxlore, please visit</span>
@@ -280,7 +280,7 @@
     </section>
 
     <footer class="wrap">
-      © 2026 Voxlore. Built for fast multilingual dictation.
+      © 2026 Voxlore v0.1.1. Built for intent-first multilingual dictation.
       <br />
       GitHub:
       <a href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">https://github.com/zoonderkins/voxlore</a>
@@ -289,24 +289,24 @@
     <script>
       const i18n = {
         en: {
-          badge: "Voxlore · macOS Voice Workflow",
-          heroTitle: "Hold to talk, release to write.",
+          badge: "Voxlore v0.1.1 · macOS Voice Workflow",
+          heroTitle: "Speak intent, not just words.",
           heroLead: "Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.",
-          f1Title: "Auto focus & paste",
-          f1Body: "Return to your previous app and paste automatically.",
-          f2Title: "Local + cloud modes",
-          f2Body: "Use local Vosk or cloud STT providers.",
-          f3Title: "Chinese punctuation enhancement",
-          f3Body: "Text Enhancement improves punctuation and readability.",
-          painTitle: "What problems does Voxlore solve?",
-          pain1: "Voice input often records but fails to insert into the right app.",
-          pain2: "Cloud API failures are hard to debug without clear errors.",
-          pain3: "Chinese transcripts often need punctuation fixes.",
-          pain4: "Switching models/providers is slow and hard to compare.",
+          f1Title: "Intent-first enhancement",
+          f1Body: "Turns spoken thoughts into usable sentences, not raw transcript dumps.",
+          f2Title: "Taiwan slang lexicon",
+          f2Body: "Built-in normalization for phrases like qq/哭哭, Y2K, Z世代, I人/E人.",
+          f3Title: "Tech + legal language safe",
+          f3Body: "Preserves terminology, API names, and formal wording with better common-sense cleanup.",
+          painTitle: "Why Voxlore is different",
+          pain1: "Understands intent instead of only mirroring every spoken filler word.",
+          pain2: "Normalizes Taiwan internet slang, homophones, and youth phrases into cleaner output.",
+          pain3: "Handles Traditional Chinese + English mixed wording more naturally.",
+          pain4: "Keeps technical and legal phrasing stable while still improving readability.",
           flowTitle: "Workflow",
           step1: "<b>1.</b> Start recording with hotkey",
           step2: "<b>2.</b> Release to stop and transcribe",
-          step3: "<b>3.</b> Optional AI enhancement",
+          step3: "<b>3.</b> AI enhancement + TW lexicon normalization",
           step4: "<b>4.</b> Auto-paste to target app",
           ctaTitle: "Ready to use your voice as a keyboard?",
           ctaBody: "Download Voxlore and finish setup in minutes.",
@@ -315,24 +315,24 @@
           starSuffix: "and leave a Star."
         },
         "zh-TW": {
-          badge: "Voxlore · macOS 語音工作流",
-          heroTitle: "按住說話，放開即成文。",
+          badge: "Voxlore v0.1.1 · macOS 語音工作流",
+          heroTitle: "不只聽字面，更懂你的意圖。",
           heroLead: "Voxlore 把錄音、轉寫、潤稿與貼回原視窗串成自然流程。",
-          f1Title: "自動回焦貼上",
-          f1Body: "錄製結束後自動回切到原本工作視窗並貼上。",
-          f2Title: "本地 + 雲端雙模式",
-          f2Body: "可選本地 Vosk 或雲端 STT 供應商。",
-          f3Title: "中文標點優化",
-          f3Body: "Text Enhancement 可優化標點與可讀性。",
-          painTitle: "Voxlore 解決哪些痛點？",
-          pain1: "語音輸入常卡在錄得到，但貼不到正確視窗。",
-          pain2: "雲端 API 失敗時，沒有清楚錯誤不易排查。",
-          pain3: "中文轉寫常缺標點，送出前仍要再修。",
-          pain4: "供應商與模型切換成本高，不好比較。",
+          f1Title: "意圖優先增強",
+          f1Body: "把口語想法整理成可直接使用的句子，不只逐字抄錄。",
+          f2Title: "台灣口語字典",
+          f2Body: "內建 qq/哭哭、Y2K、Z世代、I人/E人 等常見詞正規化。",
+          f3Title: "科技與法律語境穩定",
+          f3Body: "盡量保留術語、API 名稱與正式措辭，同時提升可讀性。",
+          painTitle: "為什麼 Voxlore 不一樣",
+          pain1: "不是只轉錄，而是先理解語意再輸出文字。",
+          pain2: "台灣網路用語、諧音梗、年輕詞彙可自動整理。",
+          pain3: "繁中混英文語句更自然，專有名詞不亂翻。",
+          pain4: "技術與法律語氣可維持穩定，不犧牲可讀性。",
           flowTitle: "工作流程",
           step1: "<b>1.</b> 快捷鍵開始錄製",
           step2: "<b>2.</b> 放開即停止並轉寫",
-          step3: "<b>3.</b> 可選 AI 文字潤稿",
+          step3: "<b>3.</b> AI 潤稿 + 台灣字典正規化",
           step4: "<b>4.</b> 自動貼回目標 App",
           ctaTitle: "準備好把語音當鍵盤了嗎？",
           ctaBody: "下載 Voxlore，幾分鐘內完成設定就能使用。",
@@ -341,24 +341,24 @@
           starSuffix: "幫我們按個 Star。"
         },
         "zh-CN": {
-          badge: "Voxlore · macOS 语音工作流",
-          heroTitle: "按住说话，松开即成文。",
+          badge: "Voxlore v0.1.1 · macOS 语音工作流",
+          heroTitle: "不只听字面，更懂你的意图。",
           heroLead: "Voxlore 把录音、转写、润色和回填文本整合为自然流程。",
-          f1Title: "自动回焦粘贴",
-          f1Body: "录制结束后自动切回原工作窗口并粘贴。",
-          f2Title: "本地 + 云端双模式",
-          f2Body: "可选本地 Vosk 或云端 STT 提供商。",
-          f3Title: "中文标点优化",
-          f3Body: "Text Enhancement 可优化标点与可读性。",
-          painTitle: "Voxlore 解决哪些痛点？",
-          pain1: "语音输入常出现录得到，但贴不到正确窗口。",
-          pain2: "云端 API 失败时缺少清晰错误信息，排查成本高。",
-          pain3: "中文转写常缺标点，发送前还需二次编辑。",
-          pain4: "切换模型/提供商成本高，效果难比较。",
+          f1Title: "意图优先增强",
+          f1Body: "把口语想法整理成可直接使用的句子，而不是逐字抄录。",
+          f2Title: "台湾口语字典",
+          f2Body: "内建 qq/哭哭、Y2K、Z世代、I人/E人 等常见词规范化。",
+          f3Title: "科技与法律语境稳定",
+          f3Body: "尽量保留术语、API 名称与正式措辞，同时提升可读性。",
+          painTitle: "为什么 Voxlore 不一样",
+          pain1: "不是只转录，而是先理解语义再输出文字。",
+          pain2: "台湾网络用语、谐音梗、年轻词汇可自动整理。",
+          pain3: "繁中混英文语句更自然，专有名词不乱翻。",
+          pain4: "技术与法律语气可保持稳定，不牺牲可读性。",
           flowTitle: "工作流程",
           step1: "<b>1.</b> 快捷键开始录制",
           step2: "<b>2.</b> 松开即停止并转写",
-          step3: "<b>3.</b> 可选 AI 文字润色",
+          step3: "<b>3.</b> AI 润色 + 台湾字典规范化",
           step4: "<b>4.</b> 自动粘贴回目标 App",
           ctaTitle: "准备好把语音当键盘了吗？",
           ctaBody: "下载 Voxlore，几分钟完成设置即可使用。",
