@@ -17,7 +17,7 @@ const API_KEY_URLS: Record<string, string> = {
 
 const LANGUAGE_OPTIONS = [
   { value: "en", label: "English" },
-  { value: "zh", label: "Chinese (Mandarin)" },
+  { value: "zh", label: "Traditional Chinese (Taiwan)" },
   { value: "ja", label: "Japanese" },
   { value: "ko", label: "Korean" },
 ];

@@ -1,6 +1,6 @@
 [package]
 name = "voxlore"
-version = "0.1.3"
+version = "0.1.4"
 description = "Privacy-first voice-to-text desktop app"
 authors = ["Voxlore Contributors"]
 edition = "2021"

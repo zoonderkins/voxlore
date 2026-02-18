@@ -40,6 +40,8 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
     let lang = config.language.to_lowercase();
     let is_zh_tw = lang == "zh-tw" || lang == "zh";
     let is_zh_cn = lang == "zh-cn";
+    let is_ja = lang.starts_with("ja");
+    let is_en = lang.starts_with("en");
 
     match config.mode {
         EnhancementMode::FixGrammar => {
@@ -72,6 +74,33 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
                 if config.source_has_mixed_script {
                     prompt.push_str(
                         "若原文含中英混说，英文品牌名、产品名、API 名称、代码片段请保留原文，不翻译、不改大小写。",
+                    );
+                }
+                prompt
+            } else if is_ja {
+                let mut prompt =
+                    "以下の音声認識テキストを自然な日本語に整えてください。\
+                 文法・誤字を修正し、文脈に合う句読点を補ってください。\
+                 「えー」「あの」「その」「なんか」などの冗長な言いよどみは削除してよいですが、意味は変えないでください。\
+                 英語のブランド名、製品名、API 名、コード断片は原文のまま保持してください。\
+                 修正後のテキストのみ返してください。"
+                        .to_string();
+                if config.source_has_mixed_script {
+                    prompt.push_str(
+                        " 日本語と英語が混在している場合も、英語の固有名詞は翻訳せず表記を維持してください。",
+                    );
+                }
+                prompt
+            } else if is_en {
+                let mut prompt =
+                    "Polish the following speech-to-text into natural, concise English. \
+                 Fix grammar and spelling, add appropriate punctuation, and remove disfluencies \
+                 like 'um', 'uh', 'you know', and repeated filler phrases when they do not change meaning. \
+                 Preserve intent and factual content. Return only the revised text."
+                        .to_string();
+                if config.source_has_mixed_script {
+                    prompt.push_str(
+                        " If the input mixes languages, preserve brand names, product names, API names, and code snippets exactly as written.",
                     );
                 }
                 prompt

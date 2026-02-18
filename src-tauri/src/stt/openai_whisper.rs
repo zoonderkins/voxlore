@@ -27,8 +27,13 @@ impl OpenAiWhisperEngine {
     }
 
     fn build_prompt(language: &str) -> Option<String> {
-        if language.eq_ignore_ascii_case("zh") || language.eq_ignore_ascii_case("zh-tw") {
+        let lang = language.to_ascii_lowercase();
+        if lang == "zh" || lang == "zh-tw" {
             Some("請輸出臺灣繁體中文逐字稿，只回傳辨識文字。".to_string())
+        } else if lang.starts_with("ja") {
+            Some("日本語で文字起こしし、認識結果のみ返してください。".to_string())
+        } else if lang.starts_with("en") {
+            Some("Transcribe in English and return transcript text only.".to_string())
         } else {
             None
         }

@@ -42,8 +42,13 @@ impl OpenRouterAudioEngine {
     }
 
     fn transcription_prompt(language: &str) -> String {
-        if language.eq_ignore_ascii_case("zh") || language.eq_ignore_ascii_case("zh-tw") {
+        let lang = language.to_ascii_lowercase();
+        if lang == "zh" || lang == "zh-tw" {
             "請直接輸出「臺灣繁體中文」逐字稿，不要解釋，不要額外標點修飾。".to_string()
+        } else if lang.starts_with("ja") {
+            "日本語の音声をそのまま文字起こししてください。説明は不要です。".to_string()
+        } else if lang.starts_with("en") {
+            "Return plain English transcript text only. No explanation.".to_string()
         } else {
             "Return plain transcript text only. No explanation.".to_string()
         }

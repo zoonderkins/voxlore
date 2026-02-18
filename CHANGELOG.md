@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.4] - 2026-02-18
+
+### Added
+
+- **Language-aware prompt tuning (EN/JA)** — Added dedicated enhancement prompts for English and Japanese, including disfluency cleanup rules (e.g. `um/uh/you know`, `えー/あの/その/なんか`) while preserving meaning.
+
+### Changed
+
+- **STT prompt switching by language** — OpenRouter Audio and OpenAI Whisper now use explicit `zh-TW` / `ja` / `en` transcription prompt variants.
+- **Speech language label clarity** — Provider speech-language option `zh` now displays as `繁體中文（台灣）` (and aligned equivalents in `en` / `zh-CN` / `ja` locales).
+- **macOS paste encoding robustness** — Clipboard read/write for auto-paste now enforces UTF-8 locale to avoid Traditional Chinese mojibake in direct-insert flow.
+- **Version bump and release artifacts** — Updated app and website version display and DMG target to `v0.1.4`.
+
 ## [0.1.3] - 2026-02-18
 
 ### Added

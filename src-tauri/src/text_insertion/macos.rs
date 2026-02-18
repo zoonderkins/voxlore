@@ -136,6 +136,8 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
 
 fn get_clipboard() -> Option<String> {
     Command::new("pbpaste")
+        .env("LANG", "en_US.UTF-8")
+        .env("LC_CTYPE", "en_US.UTF-8")
         .output()
         .ok()
         .map(|o| String::from_utf8_lossy(&o.stdout).to_string())
@@ -143,6 +145,8 @@ fn get_clipboard() -> Option<String> {
 
 fn set_clipboard(text: &str) -> Result<(), AppError> {
     let mut child = Command::new("pbcopy")
+        .env("LANG", "en_US.UTF-8")
+        .env("LC_CTYPE", "en_US.UTF-8")
         .stdin(std::process::Stdio::piped())
         .spawn()
         .map_err(|e| AppError::TextInsertion(format!("Failed to set clipboard: {e}")))?;
