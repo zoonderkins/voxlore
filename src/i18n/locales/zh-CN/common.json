@@ -106,6 +106,13 @@
       "placeholder": "输入 API 密钥...",
       "remove": "移除",
       "get": "获取 API 密钥"
+    },
+    "position": "位置",
+    "floatingPositions": {
+      "topRight": "右上",
+      "bottomRight": "右下",
+      "topLeft": "左上",
+      "bottomLeft": "左下"
     }
   }
 }

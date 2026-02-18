@@ -106,6 +106,13 @@
       "placeholder": "Enter API key...",
       "remove": "Remove",
       "get": "Get API Key"
+    },
+    "position": "Position",
+    "floatingPositions": {
+      "topRight": "Top Right",
+      "bottomRight": "Bottom Right",
+      "topLeft": "Top Left",
+      "bottomLeft": "Bottom Left"
     }
   }
 }

@@ -106,6 +106,13 @@
       "placeholder": "API キーを入力...",
       "remove": "削除",
       "get": "API キーを取得"
+    },
+    "position": "位置",
+    "floatingPositions": {
+      "topRight": "右上",
+      "bottomRight": "右下",
+      "topLeft": "左上",
+      "bottomLeft": "左下"
     }
   }
 }
