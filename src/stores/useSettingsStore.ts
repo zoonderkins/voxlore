@@ -43,7 +43,7 @@ export interface SettingsState {
   rightClickDevtools: boolean;
 
   // Language
-  uiLanguage: "en" | "zh-TW" | "zh-CN";
+  uiLanguage: "en" | "zh-TW" | "zh-CN" | "ja";
 
   // Setup
   setupCompleted: boolean;

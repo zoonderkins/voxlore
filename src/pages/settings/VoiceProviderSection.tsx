@@ -8,6 +8,7 @@ import { DEFAULT_OPENROUTER_STT_MODEL, STT_PROVIDERS } from "../../lib/constants
 import { debugUiEvent } from "../../lib/debug";
 import { checkProviderHealth, type ProviderHealth } from "../../lib/tauri";
 import { useToastStore } from "../../stores/useToastStore";
+import { useTranslation } from "react-i18next";
 
 const AUTO_HEALTH_CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
@@ -19,16 +20,6 @@ const API_KEY_URLS: Record<string, string> = {
   openrouter: "https://openrouter.ai/keys",
   custom_openai_compatible: "",
 };
-
-const LANGUAGE_OPTIONS = [
-  { value: "en", label: "English" },
-  { value: "zh", label: "Chinese (Mandarin)" },
-  { value: "ja", label: "Japanese" },
-  { value: "ko", label: "Korean" },
-  { value: "es", label: "Spanish" },
-  { value: "fr", label: "French" },
-  { value: "de", label: "German" },
-];
 
 const VOICE_MODEL_OPTIONS: Record<string, { value: string; label: string }[]> = {
   openrouter: [
@@ -48,6 +39,7 @@ const VOICE_MODEL_OPTIONS: Record<string, { value: string; label: string }[]> = 
 };
 
 export function VoiceProviderSection() {
+  const { t } = useTranslation();
   const { sttProvider, sttLanguage, sttModel, sttBaseUrl, updateSettings } = useSettingsStore();
   const addToast = useToastStore((s) => s.addToast);
   const isCloud = sttProvider !== "vosk";
@@ -104,16 +96,42 @@ export function VoiceProviderSection() {
     };
   }, [runHealthCheck]);
 
+  const languageOptions = [
+    { value: "en", label: t("settings.languageOptions.en") },
+    { value: "zh", label: t("settings.languageOptions.zh") },
+    { value: "ja", label: t("settings.languageOptions.ja") },
+    { value: "ko", label: t("settings.languageOptions.ko") },
+    { value: "es", label: t("settings.languageOptions.es") },
+    { value: "fr", label: t("settings.languageOptions.fr") },
+    { value: "de", label: t("settings.languageOptions.de") },
+  ];
+
+  const localizedModelOptions = (modelOptions ?? []).map((option) => {
+    if (option.value === "") {
+      return { ...option, label: t("settings.modelSelectPlaceholder") };
+    }
+    if (option.value === "custom") {
+      return { ...option, label: t("settings.customModel") };
+    }
+    return option;
+  });
+
   return (
     <section className="flex flex-col gap-4">
       <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2">
-        <span className="text-accent">●</span> Voice Provider
+        <span className="text-accent">●</span> {t("settings.voiceProvider")}
       </h3>
       <div className="text-xs">
         <span className={health?.ok ? "text-success" : "text-error"}>
-          {healthLoading ? "● checking..." : health?.ok ? "● healthy" : "● unhealthy"}
+          {healthLoading
+            ? `● ${t("settings.health.checking")}`
+            : health?.ok
+              ? `● ${t("settings.health.healthy")}`
+              : `● ${t("settings.health.unhealthy")}`}
         </span>
-        <span className="ml-2 text-text-muted">{health?.status ?? "initializing..."}</span>
+        <span className="ml-2 text-text-muted">
+          {health?.status ?? t("settings.health.initializing")}
+        </span>
         <Button
           type="button"
           variant="secondary"
@@ -129,7 +147,7 @@ export function VoiceProviderSection() {
       </div>
 
       <ProviderSelector
-        label="Provider"
+        label={t("settings.provider")}
         options={[...STT_PROVIDERS]}
         value={sttProvider}
         onChange={(v) => {
@@ -156,8 +174,8 @@ export function VoiceProviderSection() {
           <ApiKeyInput provider={sttProvider} getKeyUrl={API_KEY_URLS[sttProvider]} />
           {hasModelSelector && (
             <Select
-              label="Models"
-              options={modelOptions ?? []}
+              label={t("settings.models")}
+              options={localizedModelOptions}
               value={selectedValue}
               onChange={(v) => {
                 if (v === "custom") {
@@ -171,15 +189,15 @@ export function VoiceProviderSection() {
             />
           )}
           <Input
-            label="Model (optional)"
+            label={t("settings.modelOptional")}
             placeholder={
               sttProvider === "openai_transcribe"
-                ? "e.g. gpt-4o-mini-transcribe"
+                ? t("settings.modelPlaceholderTranscribe")
                 : sttProvider === "openrouter"
-                  ? `e.g. ${DEFAULT_OPENROUTER_STT_MODEL}`
+                  ? t("settings.modelPlaceholderDefault", { model: DEFAULT_OPENROUTER_STT_MODEL })
                   : sttProvider === "custom_openai_compatible"
-                    ? "e.g. gemini-3-flash"
-                  : "Leave empty for provider default"
+                    ? t("settings.modelPlaceholderCustom")
+                  : t("settings.modelPlaceholderEmpty")
             }
             value={sttModel}
             onChange={(e) => updateSettings({ sttModel: e.target.value })}
@@ -191,10 +209,10 @@ export function VoiceProviderSection() {
             <Input
               label={
                 hasCustomEndpoint
-                  ? "Custom Provider Endpoint (OpenAI-compatible)"
-                  : "OpenAI Compatible Endpoint (optional)"
+                  ? t("settings.customProviderEndpoint")
+                  : t("settings.openAiCompatibleEndpoint")
               }
-              placeholder="e.g. https://your-openai-compatible-endpoint/v1"
+              placeholder={t("settings.endpointPlaceholder")}
               value={sttBaseUrl}
               onChange={(e) => updateSettings({ sttBaseUrl: e.target.value })}
             />
@@ -203,8 +221,8 @@ export function VoiceProviderSection() {
       )}
 
       <Select
-        label="Language"
-        options={LANGUAGE_OPTIONS}
+        label={t("settings.language")}
+        options={languageOptions}
         value={sttLanguage}
         onChange={(v) => updateSettings({ sttLanguage: v })}
       />

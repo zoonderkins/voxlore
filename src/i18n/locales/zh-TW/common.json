@@ -65,6 +65,42 @@
     "debugLogsDesc": "啟用詳細的 UI 與流程紀錄",
     "rightClickDevtools": "右鍵開啟開發工具",
     "rightClickDevtoolsDesc": "允許按滑鼠右鍵開啟開發者工具",
+    "provider": "提供者",
+    "models": "模型",
+    "model": "模型",
+    "modelOptional": "模型（選填）",
+    "customModel": "自訂模型...",
+    "modelSelectPlaceholder": "-- 選擇模型 --",
+    "openAiCompatibleEndpoint": "OpenAI 相容端點（選填）",
+    "customProviderEndpoint": "自訂提供者端點（OpenAI 相容）",
+    "endpointPlaceholder": "例如：https://your-openai-compatible-endpoint/v1",
+    "modelPlaceholderTranscribe": "例如：gpt-4o-mini-transcribe",
+    "modelPlaceholderDefault": "例如：{{model}}",
+    "modelPlaceholderCustom": "例如：gemini-3-flash",
+    "modelPlaceholderEmpty": "留空則使用提供者預設模型",
+    "modelPlaceholderEnhancementSelector": "例如：anthropic/claude-sonnet-4.5",
+    "modelPlaceholderEnhancement": "例如：google/gemini-2.5-flash",
+    "localProviderRunning": "請確認 {{provider}} 已在本機啟動。",
+    "health": {
+      "checking": "檢查中...",
+      "healthy": "健康",
+      "unhealthy": "異常",
+      "initializing": "初始化中..."
+    },
+    "modelValidation": {
+      "valid": "模型 ID 格式看起來正確。",
+      "customEndpoint": "模型 ID 應為 provider/model，或提供者支援的簡寫（例如 gemini-3-flash）。",
+      "default": "模型 ID 建議使用 provider/model 格式。"
+    },
+    "languageOptions": {
+      "en": "英文",
+      "zh": "中文（普通話）",
+      "ja": "日文",
+      "ko": "韓文",
+      "es": "西班牙文",
+      "fr": "法文",
+      "de": "德文"
+    },
     "apiKey": {
       "label": "API 金鑰",
       "placeholder": "輸入 API 金鑰...",

@@ -213,13 +213,14 @@
         <option value="en">English</option>
         <option value="zh-TW">繁體中文</option>
         <option value="zh-CN">简体中文</option>
+        <option value="ja">日本語</option>
       </select>
       <button id="themeSwitch" class="control" type="button">🌙 Dark</button>
     </div>
 
     <header class="hero">
       <div class="wrap">
-        <span class="badge" data-i18n="badge">Voxlore v0.1.2 · macOS Voice Workflow</span>
+        <span class="badge" data-i18n="badge">Voxlore v0.1.3 · macOS Voice Workflow</span>
         <h1 data-i18n="heroTitle">Speak intent, not just words.</h1>
         <p class="lead" data-i18n="heroLead">
           Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.
@@ -269,7 +270,7 @@
       <div class="wrap cta">
         <h2 data-i18n="ctaTitle">Ready to use your voice as a keyboard?</h2>
         <p data-i18n="ctaBody">Download Voxlore and finish setup in minutes.</p>
-        <a class="btn" href="https://github.com/zoonderkins/voxlore/releases/download/v0.1.2/Voxlore_0.1.2_aarch64.dmg" data-i18n="downloadBtn" aria-label="Download Voxlore">Download Voxlore</a>
+        <a class="btn" href="https://github.com/zoonderkins/voxlore/releases/download/v0.1.3/Voxlore_0.1.3_aarch64.dmg" data-i18n="downloadBtn" aria-label="Download Voxlore">Download Voxlore</a>
         <a class="btn-ghost" href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">GitHub</a>
         <p class="cta-note">
           <span data-i18n="starPrefix">If you like Voxlore, please visit</span>
@@ -280,7 +281,7 @@
     </section>
 
     <footer class="wrap">
-      © 2026 Voxlore v0.1.2. Built for intent-first multilingual dictation.
+      © 2026 Voxlore v0.1.3. Built for intent-first multilingual dictation.
       <br />
       GitHub:
       <a href="https://github.com/zoonderkins/voxlore" target="_blank" rel="noreferrer">https://github.com/zoonderkins/voxlore</a>
@@ -289,7 +290,7 @@
     <script>
       const i18n = {
         en: {
-          badge: "Voxlore v0.1.2 · macOS Voice Workflow",
+          badge: "Voxlore v0.1.3 · macOS Voice Workflow",
           heroTitle: "Speak intent, not just words.",
           heroLead: "Voxlore turns recording, transcription, enhancement, and insertion into one natural flow.",
           f1Title: "Intent-first enhancement",
@@ -315,7 +316,7 @@
           starSuffix: "and leave a Star."
         },
         "zh-TW": {
-          badge: "Voxlore v0.1.2 · macOS 語音工作流",
+          badge: "Voxlore v0.1.3 · macOS 語音工作流",
           heroTitle: "不只聽字面，更懂你的意圖。",
           heroLead: "Voxlore 把錄音、轉寫、潤稿與貼回原視窗串成自然流程。",
           f1Title: "意圖優先增強",
@@ -341,7 +342,7 @@
           starSuffix: "幫我們按個 Star。"
         },
         "zh-CN": {
-          badge: "Voxlore v0.1.2 · macOS 语音工作流",
+          badge: "Voxlore v0.1.3 · macOS 语音工作流",
           heroTitle: "不只听字面，更懂你的意图。",
           heroLead: "Voxlore 把录音、转写、润色和回填文本整合为自然流程。",
           f1Title: "意图优先增强",
@@ -365,6 +366,32 @@
           downloadBtn: "下载 Voxlore",
           starPrefix: "如果你喜欢 Voxlore，欢迎到",
           starSuffix: "给我们点个 Star。"
+        },
+        ja: {
+          badge: "Voxlore v0.1.3 · macOS 音声ワークフロー",
+          heroTitle: "言葉だけでなく、意図まで理解。",
+          heroLead: "Voxlore は録音・文字起こし・整文・挿入を1つの自然な流れに統合します。",
+          f1Title: "意図優先のテキスト強化",
+          f1Body: "話した内容をそのまま転記するのではなく、使える文章に整えます。",
+          f2Title: "台湾スラング辞書",
+          f2Body: "qq/哭哭、Y2K、Z世代、I人/E人 などの表現を正規化します。",
+          f3Title: "技術・法務文脈に強い",
+          f3Body: "専門用語や API 名を保ちながら、可読性を高めます。",
+          painTitle: "Voxlore が違う理由",
+          pain1: "単なる逐語転写ではなく、意図を理解して出力します。",
+          pain2: "台湾ネット用語・若者語・語呂合わせを整理できます。",
+          pain3: "繁体中国語と英語の混在文も自然に処理します。",
+          pain4: "技術・法務寄りの語調を保ちつつ読みやすくします。",
+          flowTitle: "ワークフロー",
+          step1: "<b>1.</b> ホットキーで録音開始",
+          step2: "<b>2.</b> 離して停止・文字起こし",
+          step3: "<b>3.</b> AI 整文 + 台湾辞書正規化",
+          step4: "<b>4.</b> 対象アプリへ自動貼り付け",
+          ctaTitle: "音声をキーボードのように使いませんか？",
+          ctaBody: "Voxlore をダウンロードして数分で利用開始。",
+          downloadBtn: "Voxlore をダウンロード",
+          starPrefix: "Voxlore が気に入ったら",
+          starSuffix: "で Star をお願いします。"
         }
       };
 

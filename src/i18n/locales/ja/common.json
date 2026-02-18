@@ -1,0 +1,111 @@
+{
+  "common": {
+    "appName": "Voxlore",
+    "tagline": "音声を文字にして、カーソル位置へ直接入力。",
+    "ready": "準備完了",
+    "recording": "録音中",
+    "processing": "処理中...",
+    "error": "エラー",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "back": "戻る",
+    "next": "次へ",
+    "done": "完了",
+    "continue": "続行",
+    "settings": "設定",
+    "about": "情報"
+  },
+  "setup": {
+    "voiceProvider": {
+      "title": "Voxlore へようこそ",
+      "subtitle": "カーソル位置に音声入力できます。セットアップを始めましょう。"
+    },
+    "enhancement": {
+      "title": "テキスト強化",
+      "subtitle": "LLM により文法修正、句読点追加、読みやすさ向上を行います。"
+    },
+    "permissions": {
+      "title": "権限",
+      "subtitle": "録音にはマイク権限、文字入力にはアクセシビリティ権限が必要です。"
+    },
+    "howToUse": {
+      "title": "使い方",
+      "subtitle": "2つのショートカットで音声入力を操作します。"
+    },
+    "completion": {
+      "title": "セットアップ完了！",
+      "subtitle": "Voxlore は使用可能です。設定は後から変更できます。"
+    }
+  },
+  "settings": {
+    "voiceProvider": "音声プロバイダー",
+    "enhancement": "テキスト強化",
+    "floatingWindow": "フローティングウィンドウ",
+    "shortcuts": "ショートカット",
+    "language": "言語",
+    "enableEnhancement": "強化を有効化",
+    "enableEnhancementDesc": "精度向上、句読点追加、テキスト整形",
+    "showFloatingWindow": "フローティングウィンドウを表示",
+    "showFloatingWindowDesc": "状態と進行状況を表示します",
+    "previewBeforeInsert": "挿入前にプレビュー",
+    "previewBeforeInsertDesc": "内容を確認してから挿入",
+    "pushToTalk": "押して話す",
+    "pushToTalkDesc": "押して録音、離して文字起こしして挿入",
+    "toggleMode": "トグルモード",
+    "toggleModeDesc": "押して開始、再度押して停止・挿入",
+    "interfaceLanguage": "UI 言語",
+    "recordingOutput": "録音出力",
+    "saveRecordingsTo": "録音保存先",
+    "recordingPathPlaceholder": "空欄の場合は既定フォルダを使用",
+    "resetToDefault": "既定値に戻す",
+    "cloudTimeoutSeconds": "クラウドタイムアウト（秒）",
+    "cloudTimeoutDesc": "クラウド STT に使用（5〜180 秒）。",
+    "debugLogs": "デバッグログ",
+    "debugLogsDesc": "UI と処理パイプラインの詳細ログを有効化",
+    "rightClickDevtools": "右クリックで DevTools",
+    "rightClickDevtoolsDesc": "右クリックで開発者ツールを開く",
+    "provider": "プロバイダー",
+    "models": "モデル",
+    "model": "モデル",
+    "modelOptional": "モデル（任意）",
+    "customModel": "カスタムモデル...",
+    "modelSelectPlaceholder": "-- モデルを選択 --",
+    "openAiCompatibleEndpoint": "OpenAI 互換エンドポイント（任意）",
+    "customProviderEndpoint": "カスタムプロバイダーエンドポイント（OpenAI 互換）",
+    "endpointPlaceholder": "例: https://your-openai-compatible-endpoint/v1",
+    "modelPlaceholderTranscribe": "例: gpt-4o-mini-transcribe",
+    "modelPlaceholderDefault": "例: {{model}}",
+    "modelPlaceholderCustom": "例: gemini-3-flash",
+    "modelPlaceholderEmpty": "空欄の場合はプロバイダー既定値を使用",
+    "modelPlaceholderEnhancementSelector": "例: anthropic/claude-sonnet-4.5",
+    "modelPlaceholderEnhancement": "例: google/gemini-2.5-flash",
+    "localProviderRunning": "{{provider}} がローカルで起動していることを確認してください。",
+    "health": {
+      "checking": "確認中...",
+      "healthy": "正常",
+      "unhealthy": "異常",
+      "initializing": "初期化中..."
+    },
+    "modelValidation": {
+      "valid": "モデル ID の形式は有効です。",
+      "customEndpoint": "モデル ID は provider/model 形式、または省略名（例: gemini-3-flash）を使用してください。",
+      "default": "モデル ID は provider/model 形式を推奨します。"
+    },
+    "languageOptions": {
+      "en": "英語",
+      "zh": "中国語（標準語）",
+      "ja": "日本語",
+      "ko": "韓国語",
+      "es": "スペイン語",
+      "fr": "フランス語",
+      "de": "ドイツ語"
+    },
+    "apiKey": {
+      "label": "API キー",
+      "placeholder": "API キーを入力...",
+      "remove": "削除",
+      "get": "API キーを取得"
+    }
+  }
+}

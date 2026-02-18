@@ -65,6 +65,42 @@
     "debugLogsDesc": "Enable detailed UI + pipeline logs",
     "rightClickDevtools": "Right-click DevTools",
     "rightClickDevtoolsDesc": "Allow right click to open developer tools",
+    "provider": "Provider",
+    "models": "Models",
+    "model": "Model",
+    "modelOptional": "Model (optional)",
+    "customModel": "Custom model...",
+    "modelSelectPlaceholder": "-- Select a model --",
+    "openAiCompatibleEndpoint": "OpenAI Compatible Endpoint (optional)",
+    "customProviderEndpoint": "Custom Provider Endpoint (OpenAI-compatible)",
+    "endpointPlaceholder": "e.g. https://your-openai-compatible-endpoint/v1",
+    "modelPlaceholderTranscribe": "e.g. gpt-4o-mini-transcribe",
+    "modelPlaceholderDefault": "e.g. {{model}}",
+    "modelPlaceholderCustom": "e.g. gemini-3-flash",
+    "modelPlaceholderEmpty": "Leave empty for provider default",
+    "modelPlaceholderEnhancementSelector": "e.g. anthropic/claude-sonnet-4.5",
+    "modelPlaceholderEnhancement": "e.g. google/gemini-2.5-flash",
+    "localProviderRunning": "Make sure {{provider}} is running locally.",
+    "health": {
+      "checking": "checking...",
+      "healthy": "healthy",
+      "unhealthy": "unhealthy",
+      "initializing": "initializing..."
+    },
+    "modelValidation": {
+      "valid": "Model ID looks valid.",
+      "customEndpoint": "Model ID should be provider/model or plain alias (e.g. gemini-3-flash).",
+      "default": "Model ID format should look like provider/model."
+    },
+    "languageOptions": {
+      "en": "English",
+      "zh": "Chinese (Mandarin)",
+      "ja": "Japanese",
+      "ko": "Korean",
+      "es": "Spanish",
+      "fr": "French",
+      "de": "German"
+    },
     "apiKey": {
       "label": "API Key",
       "placeholder": "Enter API key...",

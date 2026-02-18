@@ -6,6 +6,7 @@ import { ENHANCEMENT_PROVIDERS } from "../../lib/constants";
 import { debugUiEvent } from "../../lib/debug";
 import { checkProviderHealth, type ProviderHealth } from "../../lib/tauri";
 import { useToastStore } from "../../stores/useToastStore";
+import { useTranslation } from "react-i18next";
 
 const AUTO_HEALTH_CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
@@ -40,6 +41,7 @@ const OPENROUTER_MODELS = [
 ] as const;
 
 export function EnhancementSection() {
+  const { t } = useTranslation();
   const addToast = useToastStore((s) => s.addToast);
   const {
     enhancementEnabled,
@@ -61,6 +63,15 @@ export function EnhancementSection() {
   const needsCustomValidation =
     enhancementEnabled && !isLocalProvider(enhancementProvider) && (isCustomModel || !showModelSelector);
   const customModelValid = isLikelyModelId(enhancementModel, hasCustomEndpoint);
+  const localizedModelOptions = OPENROUTER_MODELS.map((option) => {
+    if (option.value === "") {
+      return { ...option, label: t("settings.modelSelectPlaceholder") };
+    }
+    if (option.value === "custom") {
+      return { ...option, label: t("settings.customModel") };
+    }
+    return option;
+  });
 
   const runHealthCheck = useCallback(async (isManual = false) => {
     if (!enhancementEnabled) {
@@ -130,21 +141,27 @@ export function EnhancementSection() {
   return (
     <section className="flex flex-col gap-4">
       <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2">
-        <span className="text-accent">●</span> Text Enhancement
+        <span className="text-accent">●</span> {t("settings.enhancement")}
       </h3>
 
       <Toggle
-        label="Enable enhancement"
-        description="Improve accuracy, add punctuation, and format text"
+        label={t("settings.enableEnhancement")}
+        description={t("settings.enableEnhancementDesc")}
         checked={enhancementEnabled}
         onChange={(v) => updateSettings({ enhancementEnabled: v })}
       />
       {enhancementEnabled && (
         <div className="text-xs">
           <span className={health?.ok ? "text-success" : "text-error"}>
-            {healthLoading ? "● checking..." : health?.ok ? "● healthy" : "● unhealthy"}
+            {healthLoading
+              ? `● ${t("settings.health.checking")}`
+              : health?.ok
+                ? `● ${t("settings.health.healthy")}`
+                : `● ${t("settings.health.unhealthy")}`}
           </span>
-          <span className="ml-2 text-text-muted">{health?.status ?? "initializing..."}</span>
+          <span className="ml-2 text-text-muted">
+            {health?.status ?? t("settings.health.initializing")}
+          </span>
           <Button
             type="button"
             variant="secondary"
@@ -163,7 +180,7 @@ export function EnhancementSection() {
       {enhancementEnabled && (
         <>
           <Select
-            label="Provider"
+            label={t("settings.provider")}
             options={[...ENHANCEMENT_PROVIDERS]}
             value={enhancementProvider}
             onChange={(v) => {
@@ -186,8 +203,8 @@ export function EnhancementSection() {
 
           {showModelSelector && (
             <Select
-              label="Models"
-              options={[...OPENROUTER_MODELS]}
+              label={t("settings.models")}
+              options={localizedModelOptions}
               value={isCustomModel ? "custom" : enhancementModel}
               onChange={(v) => {
                 if (v === "custom") {
@@ -210,11 +227,11 @@ export function EnhancementSection() {
 
           {(isCustomModel || !showModelSelector) && (
             <Input
-              label="Model"
+              label={t("settings.model")}
               placeholder={
                 showModelSelector
-                  ? "e.g. anthropic/claude-sonnet-4.5"
-                  : "e.g. google/gemini-2.5-flash"
+                  ? t("settings.modelPlaceholderEnhancementSelector")
+                  : t("settings.modelPlaceholderEnhancement")
               }
               value={enhancementModel}
               onChange={(e) => updateSettings({ enhancementModel: e.target.value })}
@@ -225,10 +242,10 @@ export function EnhancementSection() {
             <Input
               label={
                 hasCustomEndpoint
-                  ? "Custom Provider Endpoint (OpenAI-compatible)"
-                  : "OpenAI Compatible Endpoint (optional)"
+                  ? t("settings.customProviderEndpoint")
+                  : t("settings.openAiCompatibleEndpoint")
               }
-              placeholder="e.g. https://your-openai-compatible-endpoint/v1"
+              placeholder={t("settings.endpointPlaceholder")}
               value={enhancementBaseUrl}
               onChange={(e) => updateSettings({ enhancementBaseUrl: e.target.value })}
             />
@@ -237,17 +254,18 @@ export function EnhancementSection() {
           {needsCustomValidation && (
             <p className={`text-xs ${customModelValid ? "text-success" : "text-error"}`}>
               {customModelValid
-                ? "Model ID looks valid."
+                ? t("settings.modelValidation.valid")
                 : hasCustomEndpoint
-                  ? "Model ID should be provider/model or plain alias (e.g. gemini-3-flash)."
-                  : "Model ID format should look like provider/model."}
+                  ? t("settings.modelValidation.customEndpoint")
+                  : t("settings.modelValidation.default")}
             </p>
           )}
 
           {isLocalProvider(enhancementProvider) && (
             <p className="text-xs text-text-muted">
-              Make sure {enhancementProvider === "ollama" ? "Ollama" : "LM Studio"} is running
-              locally.
+              {t("settings.localProviderRunning", {
+                provider: enhancementProvider === "ollama" ? "Ollama" : "LM Studio",
+              })}
             </p>
           )}
         </>

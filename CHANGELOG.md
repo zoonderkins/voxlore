@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3] - 2026-02-18
+
+### Added
+
+- **Japanese UI language support** — Added app locale file `ja` and wired it into i18n resources and language selectors.
+- **Website Japanese language option** — Added `ja` option and full Japanese marketing copy in `website/index.html`.
+
+### Changed
+
+- **Settings translation completeness (zh-TW / zh-CN / en)** — Replaced remaining hardcoded English labels in Voice Provider / Enhancement sections with i18n keys.
+- **Version bump and release artifacts** — Updated app/website version display and DMG download target to `v0.1.3`.
+
 ## [0.1.2] - 2026-02-18
 
 ### Added

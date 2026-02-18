@@ -26,6 +26,7 @@ const UI_LANGUAGE_OPTIONS = [
   { value: "en", label: "English" },
   { value: "zh-TW", label: "繁體中文（台灣）" },
   { value: "zh-CN", label: "简体中文（中国）" },
+  { value: "ja", label: "日本語" },
 ];
 
 const VOICE_MODEL_OPTIONS: Record<string, { value: string; label: string }[]> = {
