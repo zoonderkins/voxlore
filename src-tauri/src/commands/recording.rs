@@ -48,10 +48,10 @@ pub async fn start_recording(
 
     match mic_status.as_str() {
         "granted" => {
-            eprintln!("[recording] Microphone permission: granted");
+            crate::app_log!("[recording] Microphone permission: granted");
         }
         "not_determined" => {
-            eprintln!("[recording] Microphone permission: not_determined, requesting...");
+            crate::app_log!("[recording] Microphone permission: not_determined, requesting...");
             let granted = tokio::task::spawn_blocking(super::permissions::request_microphone_access)
                 .await
                 .map_err(|e| AppError::Audio(format!("Permission request failed: {e}")))?;
@@ -62,10 +62,10 @@ pub async fn start_recording(
                 );
                 return Err(AppError::Audio("Microphone access denied".into()));
             }
-            eprintln!("[recording] Microphone permission: granted after request");
+            crate::app_log!("[recording] Microphone permission: granted after request");
         }
         status => {
-            eprintln!("[recording] Microphone permission: {status}");
+            crate::app_log!("[recording] Microphone permission: {status}");
             let _ = app.emit(
                 "recording:status",
                 serde_json::json!({"status": "error", "message": "Microphone access denied. Please grant permission in System Settings > Privacy > Microphone."}),
@@ -93,7 +93,7 @@ pub async fn start_recording(
         let mut capture = AudioCapture::new();
         if let Err(e) = capture.start() {
             let msg = format!("Audio capture failed: {e}");
-            eprintln!("{msg}");
+            crate::app_log!("{msg}");
             let _ = app_handle.emit(
                 "recording:status",
                 serde_json::json!({"status": "error", "message": msg}),
@@ -106,7 +106,7 @@ pub async fn start_recording(
             Some(rx) => rx,
             None => {
                 let msg = "No audio receiver available";
-                eprintln!("{msg}");
+                crate::app_log!("{msg}");
                 let _ = app_handle.emit(
                     "recording:status",
                     serde_json::json!({"status": "error", "message": msg}),
@@ -125,7 +125,7 @@ pub async fn start_recording(
         loop {
             // Check stop signal BEFORE waiting — critical for quick stop
             if stop.load(Ordering::Relaxed) {
-                eprintln!("[recording] Stop signal detected, breaking loop");
+                crate::app_log!("[recording] Stop signal detected, breaking loop");
                 break;
             }
 
@@ -147,7 +147,7 @@ pub async fn start_recording(
         }
 
         capture.stop();
-        eprintln!("[recording] Collected {} samples ({:.1}s)", buffer.len(), buffer.len() as f32 / SAMPLE_RATE as f32);
+        crate::app_log!("[recording] Collected {} samples ({:.1}s)", buffer.len(), buffer.len() as f32 / SAMPLE_RATE as f32);
         buffer
     });
 
@@ -170,7 +170,7 @@ pub async fn start_recording(
         serde_json::json!({"status": "recording"}),
     );
 
-    eprintln!("[recording] Started");
+    crate::app_log!("[recording] Started");
     Ok(())
 }
 
@@ -187,7 +187,7 @@ pub async fn stop_recording(
     vosk: State<'_, VoskManager>,
     keystore: State<'_, KeyStore>,
 ) -> Result<RecordingResult, AppError> {
-    eprintln!("[recording] Stopping...");
+    crate::app_log!("[recording] Stopping...");
 
     let deadline = Instant::now() + Duration::from_secs(5);
 
@@ -197,12 +197,12 @@ pub async fn stop_recording(
             let signal = state.stop_signal.lock().unwrap().take();
             if let Some(stop) = signal {
                 stop.store(true, Ordering::Relaxed);
-                eprintln!("[recording] Stop signal sent");
+                crate::app_log!("[recording] Stop signal sent");
                 break;
             }
         }
         if Instant::now() > deadline {
-            eprintln!("[recording] Timed out waiting for stop signal");
+            crate::app_log!("[recording] Timed out waiting for stop signal");
             return Err(AppError::Audio("No recording in progress".into()));
         }
         tokio::time::sleep(Duration::from_millis(50)).await;
@@ -213,12 +213,12 @@ pub async fn stop_recording(
         {
             let task = state.recording_task.lock().unwrap().take();
             if let Some(h) = task {
-                eprintln!("[recording] Got recording task handle");
+                crate::app_log!("[recording] Got recording task handle");
                 break h;
             }
         }
         if Instant::now() > deadline {
-            eprintln!("[recording] Timed out waiting for recording task");
+            crate::app_log!("[recording] Timed out waiting for recording task");
             return Err(AppError::Audio("Recording task not ready".into()));
         }
         tokio::time::sleep(Duration::from_millis(50)).await;
@@ -228,7 +228,7 @@ pub async fn stop_recording(
         .await
         .map_err(|e| AppError::Audio(format!("Recording task failed: {e}")))?;
 
-    eprintln!("[recording] Buffer size: {} samples", buffer.len());
+    crate::app_log!("[recording] Buffer size: {} samples", buffer.len());
 
     if buffer.is_empty() {
         let _ = app.emit(
@@ -257,14 +257,14 @@ pub async fn stop_recording(
     let wav_path = dir.join(format!("{base_name}.wav"));
     let wav_data = wav::encode_wav(&buffer, SAMPLE_RATE);
     fs::write(&wav_path, &wav_data)?;
-    eprintln!("[recording] Saved WAV: {} ({} bytes)", wav_path.display(), wav_data.len());
+    crate::app_log!("[recording] Saved WAV: {} ({} bytes)", wav_path.display(), wav_data.len());
 
     let provider = state.stt_provider.lock().unwrap().clone();
     let language = state.stt_language.lock().unwrap().clone();
     let model = state.stt_model.lock().unwrap().clone();
     let stt_base_url = state.stt_base_url.lock().unwrap().clone();
     let cloud_timeout_secs = *state.cloud_timeout_secs.lock().unwrap();
-    eprintln!(
+    crate::app_log!(
         "[recording] STT settings provider={} language={} model={:?}",
         provider, language, model
     );
@@ -296,7 +296,7 @@ pub async fn stop_recording(
     {
         Ok(text) => text,
         Err(e) => {
-            eprintln!("[recording] Transcription failed: {e}");
+            crate::app_log!("[recording] Transcription failed: {e}");
             let _ = app.emit(
                 "recording:status",
                 serde_json::json!({"status": "error", "message": format!("Transcription failed: {e}")}),
@@ -308,7 +308,7 @@ pub async fn stop_recording(
     // Save transcription text
     let txt_path = dir.join(format!("{base_name}.txt"));
     fs::write(&txt_path, &text)?;
-    eprintln!("[recording] Saved TXT: {}", txt_path.display());
+    crate::app_log!("[recording] Saved TXT: {}", txt_path.display());
 
     let _ = app.emit("recording:status", serde_json::json!({"status": "done"}));
 
@@ -351,11 +351,11 @@ async fn transcribe_with_selected_provider(
                 );
                 return Ok(String::new());
             }
-            eprintln!("[recording] Transcribing via Vosk...");
+            crate::app_log!("[recording] Transcribing via Vosk...");
             vosk.transcribe_samples(samples, SAMPLE_RATE as f32)?.text
         }
         SttProvider::ElevenLabs => {
-            eprintln!("[recording] Transcribing via ElevenLabs...");
+            crate::app_log!("[recording] Transcribing via ElevenLabs...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "elevenlabs")?;
             let engine = ElevenLabsEngine::new(api_key, model);
@@ -368,7 +368,7 @@ async fn transcribe_with_selected_provider(
             .text
         }
         SttProvider::OpenAI => {
-            eprintln!("[recording] Transcribing via OpenAI...");
+            crate::app_log!("[recording] Transcribing via OpenAI...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "openai")?;
             let engine = OpenAiWhisperEngine::new(api_key, model, base_url.clone());
@@ -381,7 +381,7 @@ async fn transcribe_with_selected_provider(
             .text
         }
         SttProvider::OpenAITranscribe => {
-            eprintln!("[recording] Transcribing via OpenAI Transcribe...");
+            crate::app_log!("[recording] Transcribing via OpenAI Transcribe...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "openai")?;
             let transcribe_model = model.or_else(|| Some("gpt-4o-mini-transcribe".to_string()));
@@ -395,7 +395,7 @@ async fn transcribe_with_selected_provider(
             .text
         }
         SttProvider::OpenRouter => {
-            eprintln!("[recording] Transcribing via OpenRouter Audio...");
+            crate::app_log!("[recording] Transcribing via OpenRouter Audio...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "openrouter")?;
             let engine = OpenRouterAudioEngine::new(api_key, model, base_url.clone());
@@ -408,7 +408,7 @@ async fn transcribe_with_selected_provider(
             .text
         }
         SttProvider::CustomOpenAiCompatible => {
-            eprintln!("[recording] Transcribing via Custom OpenAI-Compatible Audio...");
+            crate::app_log!("[recording] Transcribing via Custom OpenAI-Compatible Audio...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "custom_openai_compatible")?;
             let endpoint = base_url.clone().ok_or_else(|| {
@@ -424,7 +424,7 @@ async fn transcribe_with_selected_provider(
             .text
         }
         SttProvider::Mistral => {
-            eprintln!("[recording] Transcribing via Mistral...");
+            crate::app_log!("[recording] Transcribing via Mistral...");
             let wav_data = wav::encode_wav(samples, SAMPLE_RATE);
             let api_key = get_api_key(keystore, "mistral")?;
             let engine = MistralEngine::new(api_key, model);

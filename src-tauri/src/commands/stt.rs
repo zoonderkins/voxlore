@@ -23,7 +23,7 @@ pub async fn transcribe_audio(
     keystore: State<'_, KeyStore>,
     vosk: State<'_, VoskManager>,
 ) -> Result<SttResult, AppError> {
-    eprintln!(
+    crate::app_log!(
         "[stt] transcribe_audio provider={:?} language={} model={:?}",
         provider, language, model
     );

@@ -48,8 +48,8 @@ const CG_HID_EVENT_TAP: u32 = 0;
 /// leaves the text accessible to the user.
 /// Returns `Ok(true)` if auto-pasted, `Ok(false)` if text is on clipboard only.
 pub async fn insert_text(text: &str) -> Result<bool, AppError> {
-    eprintln!("[text-insert] Inserting {} chars", text.len());
-    eprintln!(
+    crate::app_log!("[text-insert] Inserting {} chars", text.len());
+    crate::app_log!(
         "[text-insert] frontmost before insert: {:?}",
         get_frontmost_bundle_id()
     );
@@ -71,14 +71,14 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
         tokio::time::sleep(tokio::time::Duration::from_millis(200)).await;
         post_event_allowed = unsafe { CGPreflightPostEventAccess() };
     }
-    eprintln!(
+    crate::app_log!(
         "[text-insert] AXIsProcessTrusted = {trusted}, CGPostEventAccess = {post_event_allowed}"
     );
 
     // macOS requires both AX trust and post-event permission for reliable
     // keyboard event injection. Without them, keep clipboard text for manual paste.
     if !(trusted && post_event_allowed) {
-        eprintln!(
+        crate::app_log!(
             "[text-insert] Missing event permissions; text left on clipboard (Cmd+V manually)"
         );
         return Ok(false);
@@ -86,24 +86,24 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
 
     let mut pasted = match simulate_cmd_v() {
         Ok(()) => {
-            eprintln!("[text-insert] CGEvent Cmd+V posted");
+            crate::app_log!("[text-insert] CGEvent Cmd+V posted");
             true
         }
         Err(e) => {
-            eprintln!("[text-insert] CGEvent failed: {e}");
+            crate::app_log!("[text-insert] CGEvent failed: {e}");
             false
         }
     };
 
     if !pasted {
-        eprintln!("[text-insert] Falling back to osascript System Events Cmd+V");
+        crate::app_log!("[text-insert] Falling back to osascript System Events Cmd+V");
         pasted = match simulate_cmd_v_osascript() {
             Ok(()) => {
-                eprintln!("[text-insert] osascript Cmd+V posted");
+                crate::app_log!("[text-insert] osascript Cmd+V posted");
                 true
             }
             Err(e) => {
-                eprintln!("[text-insert] osascript Cmd+V failed: {e}");
+                crate::app_log!("[text-insert] osascript Cmd+V failed: {e}");
                 false
             }
         };
@@ -117,16 +117,16 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
         if let Some(saved) = saved {
             let _ = set_clipboard(&saved);
         }
-        eprintln!("[text-insert] Clipboard restored");
-        eprintln!(
+        crate::app_log!("[text-insert] Clipboard restored");
+        crate::app_log!(
             "[text-insert] frontmost after insert: {:?}",
             get_frontmost_bundle_id()
         );
         Ok(true)
     } else {
         // Paste didn't go through — keep text on clipboard for manual Cmd+V
-        eprintln!("[text-insert] Text left on clipboard (Cmd+V manually if needed)");
-        eprintln!(
+        crate::app_log!("[text-insert] Text left on clipboard (Cmd+V manually if needed)");
+        crate::app_log!(
             "[text-insert] frontmost after failed insert: {:?}",
             get_frontmost_bundle_id()
         );

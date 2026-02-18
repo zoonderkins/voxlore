@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.2] - 2026-02-18
+
+### Added
+
+- **Taiwan lexicon normalization for enhancement** — Added built-in Taiwan slang/youth wording dictionary (`qq/哭哭`, `Y2K`, `Z世代`, `I人/E人`, etc.) with prompt hints and post-processing normalization.
+- **macOS file logger** — Added persistent runtime log output at `~/Library/Logs/Voxlore/run.log` while preserving terminal output.
+
+### Changed
+
+- **Enhancement prompt quality** — Improved zh-TW/zh-CN prompt behavior, mixed-language handling, and Taiwanese writing conventions alignment.
+- **Settings health-check cadence** — Voice/Enhancement provider auto health-check now runs once on open and then every 1 hour (previously every 20 seconds).
+- **API key localization completeness** — Added missing `settings.apiKey.*` translation keys in `en`, `zh-TW`, `zh-CN` to prevent raw i18n key text in UI.
+- **Website messaging refresh** — Updated `website/index.html` with intent-first positioning, v0.1.2 download link, and refreshed multilingual copy.
+
 ## [0.1.0] - 2026-02-18
 
 ### Changed

@@ -3,6 +3,7 @@ mod commands;
 mod enhancement;
 mod error;
 mod hotkey;
+mod logger;
 mod models;
 mod security;
 mod stt;
@@ -20,6 +21,7 @@ use tauri::{
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    logger::init_file_logger();
     tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::default().build())
         .manage(AppState::default())
@@ -124,7 +126,7 @@ fn auto_load_vosk_model(app: &tauri::App) {
     let downloaded = models::downloader::list_downloaded_models(&models_dir);
 
     if downloaded.is_empty() {
-        eprintln!("[startup] No downloaded Vosk models found");
+        crate::app_log!("[startup] No downloaded Vosk models found");
         return;
     }
 
@@ -147,8 +149,8 @@ fn auto_load_vosk_model(app: &tauri::App) {
 
     let model_dir = models_dir.join(model_id);
     match vosk.load_model(model_id, &model_dir) {
-        Ok(()) => eprintln!("[startup] Auto-loaded Vosk model: {model_id} (lang={lang})"),
-        Err(e) => eprintln!("[startup] Failed to auto-load Vosk model: {e}"),
+        Ok(()) => crate::app_log!("[startup] Auto-loaded Vosk model: {model_id} (lang={lang})"),
+        Err(e) => crate::app_log!("[startup] Failed to auto-load Vosk model: {e}"),
     }
 }
 
@@ -167,11 +169,11 @@ fn setup_global_shortcuts(app: &tauri::App) -> Result<(), Box<dyn std::error::Er
                         let app_handle = app.clone();
                         match event.state {
                             ShortcutState::Pressed => {
-                                eprintln!("[shortcut] Option+Space PRESSED");
+                                crate::app_log!("[shortcut] Option+Space PRESSED");
                                 tauri::async_runtime::spawn(async move {
                                     let self_bundle_id = app_handle.config().identifier.clone();
                                     let target_bundle = capture_frontmost_bundle_id_before_recording(&self_bundle_id);
-                                    eprintln!("[shortcut] captured recording target bundle id: {:?}", target_bundle);
+                                    crate::app_log!("[shortcut] captured recording target bundle id: {:?}", target_bundle);
                                     *app_handle
                                         .state::<AppState>()
                                         .recording_target_bundle_id
@@ -192,18 +194,18 @@ fn setup_global_shortcuts(app: &tauri::App) -> Result<(), Box<dyn std::error::Er
                                     // Show floating widget only when enabled in settings
                                     if floating_enabled {
                                         if let Err(e) = commands::floating::show_floating_widget(app_handle.clone(), Some(position)).await {
-                                            eprintln!("[shortcut] Failed to show widget: {e}");
+                                            crate::app_log!("[shortcut] Failed to show widget: {e}");
                                         }
                                     }
 
                                     if let Err(e) = commands::recording::start_recording(app_handle.clone(), app_state).await {
-                                        eprintln!("[shortcut] Failed to start recording: {e}");
+                                        crate::app_log!("[shortcut] Failed to start recording: {e}");
                                         let _ = app_handle.emit("recording:status", serde_json::json!({"status": "error", "message": e.to_string()}));
                                     }
                                 });
                             }
                             ShortcutState::Released => {
-                                eprintln!("[shortcut] Option+Space RELEASED");
+                                crate::app_log!("[shortcut] Option+Space RELEASED");
                                 tauri::async_runtime::spawn(async move {
                                     let state = app_handle.state::<AppState>();
                                     let vosk = app_handle.state::<VoskManager>();
@@ -211,7 +213,7 @@ fn setup_global_shortcuts(app: &tauri::App) -> Result<(), Box<dyn std::error::Er
 
                                     match commands::recording::stop_recording(app_handle.clone(), None, state, vosk, keystore).await {
                                         Ok(result) => {
-                                            eprintln!("[shortcut] Recording result: audio={:?}, text_len={}", result.audio_path, result.text.len());
+                                            crate::app_log!("[shortcut] Recording result: audio={:?}, text_len={}", result.audio_path, result.text.len());
                                             // Hide floating widget
                                             let _ = commands::floating::hide_floating_widget(app_handle.clone()).await;
 
@@ -222,7 +224,7 @@ fn setup_global_shortcuts(app: &tauri::App) -> Result<(), Box<dyn std::error::Er
                                         }
                                         Err(e) => {
                                             let _ = commands::floating::hide_floating_widget(app_handle.clone()).await;
-                                            eprintln!("[shortcut] Failed to stop recording: {e}");
+                                            crate::app_log!("[shortcut] Failed to stop recording: {e}");
                                             let _ = app_handle.emit("recording:status", serde_json::json!({"status": "error", "message": e.to_string()}));
                                         }
                                     }

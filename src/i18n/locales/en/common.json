@@ -64,6 +64,12 @@
     "debugLogs": "Debug logs",
     "debugLogsDesc": "Enable detailed UI + pipeline logs",
     "rightClickDevtools": "Right-click DevTools",
-    "rightClickDevtoolsDesc": "Allow right click to open developer tools"
+    "rightClickDevtoolsDesc": "Allow right click to open developer tools",
+    "apiKey": {
+      "label": "API Key",
+      "placeholder": "Enter API key...",
+      "remove": "Remove",
+      "get": "Get API Key"
+    }
   }
 }

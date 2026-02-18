@@ -114,7 +114,7 @@ impl CloudSttEngine for OpenRouterAudioEngine {
             .map_err(|e| AppError::Stt(format!("Failed to read response: {e}")))?;
         let latency_ms = started.elapsed().as_millis();
         let local_request_id = Self::next_request_id();
-        eprintln!(
+        crate::app_log!(
             "[stt-http] provider=openrouter request_id={} upstream_request_id={} status={} latency_ms={}",
             local_request_id, request_id, status, latency_ms
         );

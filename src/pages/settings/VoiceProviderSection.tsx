@@ -9,6 +9,8 @@ import { debugUiEvent } from "../../lib/debug";
 import { checkProviderHealth, type ProviderHealth } from "../../lib/tauri";
 import { useToastStore } from "../../stores/useToastStore";
 
+const AUTO_HEALTH_CHECK_INTERVAL_MS = 60 * 60 * 1000;
+
 const API_KEY_URLS: Record<string, string> = {
   elevenlabs: "https://elevenlabs.io/app/settings/api-keys",
   openai: "https://platform.openai.com/api-keys",
@@ -96,7 +98,7 @@ export function VoiceProviderSection() {
     void runHealthCheck();
     const timer = setInterval(() => {
       void runHealthCheck();
-    }, 20000);
+    }, AUTO_HEALTH_CHECK_INTERVAL_MS);
     return () => {
       clearInterval(timer);
     };

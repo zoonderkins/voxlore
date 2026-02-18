@@ -52,7 +52,7 @@ impl AudioCapture {
             buffer_size: cpal::BufferSize::Default,
         };
 
-        let err_fn = |err| eprintln!("Audio stream error: {err}");
+        let err_fn = |err| crate::app_log!("Audio stream error: {err}");
 
         let stream = match config.sample_format() {
             SampleFormat::I16 => {

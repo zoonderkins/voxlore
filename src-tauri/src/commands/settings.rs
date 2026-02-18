@@ -17,7 +17,7 @@ pub fn save_api_key(
     key: String,
     keystore: State<'_, KeyStore>,
 ) -> Result<(), AppError> {
-    eprintln!(
+    crate::app_log!(
         "[settings] save_api_key provider={} key_len={}",
         provider,
         key.trim().len()
@@ -31,7 +31,7 @@ pub fn has_api_key(
     provider: String,
     keystore: State<'_, KeyStore>,
 ) -> Result<bool, AppError> {
-    eprintln!("[settings] has_api_key provider={}", provider);
+    crate::app_log!("[settings] has_api_key provider={}", provider);
     keystore.has_api_key(&provider)
 }
 
@@ -41,7 +41,7 @@ pub fn delete_api_key(
     provider: String,
     keystore: State<'_, KeyStore>,
 ) -> Result<(), AppError> {
-    eprintln!("[settings] delete_api_key provider={}", provider);
+    crate::app_log!("[settings] delete_api_key provider={}", provider);
     keystore.delete_api_key(&provider)
 }
 
@@ -59,7 +59,7 @@ pub fn sync_settings(
     cloud_timeout_secs: Option<u64>,
     debug_logging_enabled: Option<bool>,
 ) {
-    eprintln!(
+    crate::app_log!(
         "[settings] sync_settings widget_position={:?} stt_language={:?} stt_provider={:?} stt_model={:?}",
         widget_position, stt_language, stt_provider, stt_model
     );
@@ -109,7 +109,7 @@ pub fn debug_ui_event(
     if !*state.debug_logging_enabled.lock().unwrap() {
         return;
     }
-    eprintln!("[ui-debug] {} {}", event, payload);
+    crate::app_log!("[ui-debug] {} {}", event, payload);
 }
 
 #[tauri::command]
@@ -267,7 +267,7 @@ async fn check_stt_provider(
         let status = r.status();
         let latency_ms = started.elapsed().as_millis();
         let upstream_request_id = get_response_request_id(r.headers());
-        eprintln!(
+        crate::app_log!(
             "[healthcheck] section=voice request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode=custom",
             local_request_id, provider, status, latency_ms, upstream_request_id
         );
@@ -294,7 +294,7 @@ async fn check_stt_provider(
             let status = r.status();
             let latency_ms = started.elapsed().as_millis();
             let upstream_request_id = get_response_request_id(r.headers());
-            eprintln!(
+            crate::app_log!(
                 "[healthcheck] section=voice request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode=default",
                 local_request_id, provider, status, latency_ms, upstream_request_id
             );
@@ -314,7 +314,7 @@ async fn check_stt_provider(
             let status = r.status();
             let latency_ms = started.elapsed().as_millis();
             let upstream_request_id = get_response_request_id(r.headers());
-            eprintln!(
+            crate::app_log!(
                 "[healthcheck] section=voice request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode=default",
                 local_request_id, provider, status, latency_ms, upstream_request_id
             );
@@ -334,7 +334,7 @@ async fn check_stt_provider(
             let status = r.status();
             let latency_ms = started.elapsed().as_millis();
             let upstream_request_id = get_response_request_id(r.headers());
-            eprintln!(
+            crate::app_log!(
                 "[healthcheck] section=voice request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode=default",
                 local_request_id, provider, status, latency_ms, upstream_request_id
             );
@@ -354,7 +354,7 @@ async fn check_stt_provider(
             let status = r.status();
             let latency_ms = started.elapsed().as_millis();
             let upstream_request_id = get_response_request_id(r.headers());
-            eprintln!(
+            crate::app_log!(
                 "[healthcheck] section=voice request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode=default",
                 local_request_id, provider, status, latency_ms, upstream_request_id
             );
@@ -416,7 +416,7 @@ async fn check_openai_compatible_chat(
     let latency_ms = started.elapsed().as_millis();
     let upstream_request_id = get_response_request_id(r.headers());
     let endpoint_mode = if endpoint.is_some() { "custom" } else { "default" };
-    eprintln!(
+    crate::app_log!(
         "[healthcheck] section=enhancement request_id={} provider={} status={} latency_ms={} upstream_request_id={} endpoint_mode={}",
         local_request_id, provider, status, latency_ms, upstream_request_id, endpoint_mode
     );

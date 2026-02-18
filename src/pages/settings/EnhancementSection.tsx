@@ -7,6 +7,8 @@ import { debugUiEvent } from "../../lib/debug";
 import { checkProviderHealth, type ProviderHealth } from "../../lib/tauri";
 import { useToastStore } from "../../stores/useToastStore";
 
+const AUTO_HEALTH_CHECK_INTERVAL_MS = 60 * 60 * 1000;
+
 const API_KEY_URLS: Record<string, string> = {
   openrouter: "https://openrouter.ai/keys",
   custom_openai_compatible: "",
@@ -119,7 +121,7 @@ export function EnhancementSection() {
     void runHealthCheck();
     const timer = setInterval(() => {
       void runHealthCheck();
-    }, 20000);
+    }, AUTO_HEALTH_CHECK_INTERVAL_MS);
     return () => {
       clearInterval(timer);
     };

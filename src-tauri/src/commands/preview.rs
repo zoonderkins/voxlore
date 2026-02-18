@@ -19,7 +19,7 @@ pub async fn show_preview_window(
         .clone()
         .or_else(|| capture_frontmost_target_bundle_id(&self_bundle_id))
         .or_else(|| wait_for_non_self_frontmost_bundle_id(&self_bundle_id, 800, 40));
-    eprintln!("[preview] resolved target bundle id: {:?}", target_bundle);
+    crate::app_log!("[preview] resolved target bundle id: {:?}", target_bundle);
     *state.preview_target_bundle_id.lock().unwrap() = target_bundle;
 
     // Store text in state so the preview window can pull it once mounted
@@ -90,12 +90,12 @@ pub async fn apply_preview_text(app: AppHandle, text: String) -> Result<bool, Ap
     });
 
     if let Some(bundle_id) = resolved_target_bundle {
-        eprintln!("[preview] re-activating target app: {bundle_id}");
+        crate::app_log!("[preview] re-activating target app: {bundle_id}");
         if let Err(e) = activate_app_by_bundle_id(&bundle_id) {
-            eprintln!("[preview] failed to activate target app: {e}");
+            crate::app_log!("[preview] failed to activate target app: {e}");
         }
     } else {
-        eprintln!("[preview] no target app captured before preview");
+        crate::app_log!("[preview] no target app captured before preview");
     }
 
     // 關閉 preview 後，macOS 需要一點時間把焦點切回先前應用程式。
@@ -105,7 +105,7 @@ pub async fn apply_preview_text(app: AppHandle, text: String) -> Result<bool, Ap
     // Insert text at cursor
     let mut auto_pasted = crate::text_insertion::insert_text_at_cursor(&text).await?;
     if !auto_pasted {
-        eprintln!("[preview] first insert attempt returned clipboard-only, retrying once");
+        crate::app_log!("[preview] first insert attempt returned clipboard-only, retrying once");
         if let Some(bundle_id) = app
             .state::<AppState>()
             .preview_target_bundle_id

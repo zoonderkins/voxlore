@@ -28,7 +28,7 @@ pub async fn enhance_text(
     keystore: State<'_, KeyStore>,
 ) -> Result<String, AppError> {
     let is_local = provider == "ollama" || provider == "lmstudio";
-    eprintln!(
+    crate::app_log!(
         "[enhancement] request provider={} model={} language={} is_local={}",
         provider,
         model,
@@ -67,7 +67,7 @@ pub async fn enhance_text(
                 ));
             }
             let maybe_api_key = keystore.get_api_key(&provider)?;
-            eprintln!(
+            crate::app_log!(
                 "[enhancement] cloud provider key_exists={}",
                 maybe_api_key.is_some()
             );

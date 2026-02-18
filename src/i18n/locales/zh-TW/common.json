@@ -64,6 +64,12 @@
     "debugLogs": "除錯紀錄",
     "debugLogsDesc": "啟用詳細的 UI 與流程紀錄",
     "rightClickDevtools": "右鍵開啟開發工具",
-    "rightClickDevtoolsDesc": "允許按滑鼠右鍵開啟開發者工具"
+    "rightClickDevtoolsDesc": "允許按滑鼠右鍵開啟開發者工具",
+    "apiKey": {
+      "label": "API 金鑰",
+      "placeholder": "輸入 API 金鑰...",
+      "remove": "移除",
+      "get": "取得 API 金鑰"
+    }
   }
 }

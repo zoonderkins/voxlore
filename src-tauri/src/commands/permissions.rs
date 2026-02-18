@@ -196,7 +196,7 @@ mod platform {
     /// Open System Settings > Privacy > Accessibility.
     pub fn request_accessibility() {
         let prompt_shown = request_accessibility_trust_prompt();
-        eprintln!("[permissions] AX prompt requested: {prompt_shown}");
+        crate::app_log!("[permissions] AX prompt requested: {prompt_shown}");
         let _ = unsafe { CGRequestPostEventAccess() };
         let _ = std::process::Command::new("open")
             .arg("x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")

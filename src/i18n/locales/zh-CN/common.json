@@ -64,6 +64,12 @@
     "debugLogs": "调试日志",
     "debugLogsDesc": "启用详细的 UI 与流程日志",
     "rightClickDevtools": "右键打开开发者工具",
-    "rightClickDevtoolsDesc": "允许右键打开开发者工具"
+    "rightClickDevtoolsDesc": "允许右键打开开发者工具",
+    "apiKey": {
+      "label": "API 密钥",
+      "placeholder": "输入 API 密钥...",
+      "remove": "移除",
+      "get": "获取 API 密钥"
+    }
   }
 }

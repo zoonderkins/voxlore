@@ -105,7 +105,7 @@ impl EnhancementEngine for OpenAiCompatEngine {
         } else {
             "custom"
         };
-        eprintln!(
+        crate::app_log!(
             "[enhancement-http] provider=openai_compat request_id={} upstream_request_id={} status={} latency_ms={} endpoint_mode={}",
             local_request_id, upstream_request_id, status, latency_ms, endpoint_mode
         );
