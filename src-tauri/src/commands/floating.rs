@@ -40,6 +40,7 @@ fn show_floating_widget_impl(app: AppHandle, position: Option<String>) -> Result
             .title("")
             .decorations(false)
             .always_on_top(true)
+            .focused(false)
             .resizable(false)
             .inner_size(WIDGET_WIDTH, WIDGET_HEIGHT)
             .skip_taskbar(true);

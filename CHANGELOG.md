@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.5] - 2026-02-18
+
+### Changed
+
+- **Mixed-language retention for zh transcription** — Updated zh/zh-TW STT prompts to keep original English segments (sentences, technical terms, API names, code, acronyms) instead of translating all content into Traditional Chinese.
+- **Mixed-language retention for zh enhancement** — Updated zh-TW/zh-CN enhancement prompts to explicitly preserve original English segments and only polish readability.
+- **Direct insert focus stability** — Aligned non-preview insert flow with preview-style target-app restore behavior and added post-insert focus restore to reduce jump-back to Voxlore window.
+- **Accessibility troubleshooting logs and prompt** — Added insertion-time AX trust prompt trigger and executable-path logging to diagnose macOS permission mismatch issues.
+- **Version bump and release artifacts** — Updated app and website version display and DMG target to `v0.1.5`.
+
 ## [0.1.4] - 2026-02-18
 
 ### Added

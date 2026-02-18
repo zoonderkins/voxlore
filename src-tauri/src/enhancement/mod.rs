@@ -52,6 +52,7 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
                  用詞與字形請優先遵循教育部《重編國語辭典修訂本》與《異體字字典》，\
                  標點請優先遵循教育部《重訂標點符號手冊》，\
                  若涉及台語常用詞可參照教育部《臺灣台語常用詞辭典》。\
+                 若原文包含英文句子、英文片語、術語、產品名、API 名稱、程式碼或縮寫，必須保留原文英文，不可翻譯成中文。\
                  只回傳修正後文字。"
                         .to_string();
                 if config.source_has_mixed_script {
@@ -69,6 +70,7 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
                 let mut prompt =
                     "请将以下语音转文字内容修正为「简体中文」，按语气停顿补上自然标点（，。！？）；\
                  修正常见同音字与错字，但不要改变原意、不要扩写。\
+                 若原文包含英文句子、英文短语、术语、产品名、API 名称、代码或缩写，必须保留英文原文，不可翻译成中文。\
                  只返回修正后的文本。"
                         .to_string();
                 if config.source_has_mixed_script {

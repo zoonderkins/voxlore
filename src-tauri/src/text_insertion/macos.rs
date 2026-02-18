@@ -28,6 +28,21 @@ extern "C" {
 #[link(name = "ApplicationServices", kind = "framework")]
 extern "C" {
     fn AXIsProcessTrusted() -> bool;
+    fn AXIsProcessTrustedWithOptions(options: *const c_void) -> bool;
+    static kAXTrustedCheckOptionPrompt: *const c_void;
+}
+
+#[link(name = "CoreFoundation", kind = "framework")]
+extern "C" {
+    fn CFDictionaryCreate(
+        allocator: *const c_void,
+        keys: *const *const c_void,
+        values: *const *const c_void,
+        num_values: isize,
+        key_callbacks: *const c_void,
+        value_callbacks: *const c_void,
+    ) -> *const c_void;
+    static kCFBooleanTrue: *const c_void;
 }
 
 // kVK_ANSI_V = 0x09
@@ -65,6 +80,10 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
 
     let trusted = unsafe { AXIsProcessTrusted() };
     let mut post_event_allowed = unsafe { CGPreflightPostEventAccess() };
+    if !trusted {
+        let prompt_requested = request_accessibility_trust_prompt();
+        crate::app_log!("[text-insert] requested AX trust prompt: {prompt_requested}");
+    }
     if !post_event_allowed {
         let _ = unsafe { CGRequestPostEventAccess() };
         // 使用者剛在系統彈窗點允許時，狀態更新常會稍有延遲。
@@ -75,13 +94,11 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
         "[text-insert] AXIsProcessTrusted = {trusted}, CGPostEventAccess = {post_event_allowed}"
     );
 
-    // macOS requires both AX trust and post-event permission for reliable
-    // keyboard event injection. Without them, keep clipboard text for manual paste.
-    if !(trusted && post_event_allowed) {
-        crate::app_log!(
-            "[text-insert] Missing event permissions; text left on clipboard (Cmd+V manually)"
-        );
-        return Ok(false);
+    // 不因前置權限判斷直接中止，仍嘗試送出貼上事件。
+    // 某些環境下 preflight 可能回傳 false，但實際事件仍可能成功。
+    let untrusted_mode = !(trusted && post_event_allowed);
+    if untrusted_mode {
+        crate::app_log!("[text-insert] Event permission preflight not fully granted; still attempting paste");
     }
 
     let mut pasted = match simulate_cmd_v() {
@@ -112,7 +129,7 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
     // Wait for the paste to complete
     tokio::time::sleep(tokio::time::Duration::from_millis(200)).await;
 
-    if pasted {
+    if pasted && !untrusted_mode {
         // Paste succeeded — restore original clipboard
         if let Some(saved) = saved {
             let _ = set_clipboard(&saved);
@@ -123,6 +140,16 @@ pub async fn insert_text(text: &str) -> Result<bool, AppError> {
             get_frontmost_bundle_id()
         );
         Ok(true)
+    } else if pasted && untrusted_mode {
+        // 權限狀態不完整時，無法可靠判斷是否真的貼入，保留剪貼簿內容供手動 Cmd+V。
+        crate::app_log!(
+            "[text-insert] Cmd+V posted in untrusted mode; keeping clipboard text for manual paste"
+        );
+        crate::app_log!(
+            "[text-insert] frontmost after insert attempt: {:?}",
+            get_frontmost_bundle_id()
+        );
+        Ok(false)
     } else {
         // Paste didn't go through — keep text on clipboard for manual Cmd+V
         crate::app_log!("[text-insert] Text left on clipboard (Cmd+V manually if needed)");
@@ -218,5 +245,26 @@ fn get_frontmost_bundle_id() -> Option<String> {
         None
     } else {
         Some(bundle_id)
+    }
+}
+
+fn request_accessibility_trust_prompt() -> bool {
+    unsafe {
+        let keys = [kAXTrustedCheckOptionPrompt];
+        let values = [kCFBooleanTrue];
+        let options = CFDictionaryCreate(
+            std::ptr::null(),
+            keys.as_ptr(),
+            values.as_ptr(),
+            1,
+            std::ptr::null(),
+            std::ptr::null(),
+        );
+        if options.is_null() {
+            return false;
+        }
+        let trusted = AXIsProcessTrustedWithOptions(options);
+        CFRelease(options);
+        trusted
     }
 }
