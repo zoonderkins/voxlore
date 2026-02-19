@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.6] - 2026-02-19
+
+### Changed
+
+- **Forced speech-to-text context for enhancement prompts** — Added a global STT context prefix to all enhancement modes (including custom prompt) so models must treat input as already-provided transcript text.
+- **Anti-refusal guardrails for transcript processing** — Enhancement prompts now explicitly forbid asking for video links, file uploads, source media, or re-recording; when context is incomplete, models must still return best-effort output instead of refusing.
+- **Provider prompt consistency for zh transcription** — Updated OpenRouter Audio and OpenAI Whisper zh/zh-TW prompts with the same STT-context and no-source-request constraints.
+- **Version bump and release artifacts** — Updated app version to `v0.1.6`.
+
 ## [0.1.5] - 2026-02-18
 
 ### Changed

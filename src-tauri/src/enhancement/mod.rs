@@ -35,6 +35,19 @@ pub trait EnhancementEngine: Send + Sync {
     fn provider_name(&self) -> &str;
 }
 
+fn stt_context_prefix(language: &str) -> String {
+    let lang = language.to_lowercase();
+    if lang == "zh" || lang == "zh-tw" {
+        "你正在處理 speech-to-text（語音轉文字）流程的後處理。使用者訊息內容就是「已提供」的逐字稿文字，不是要你去抓影片或音訊來源。禁止要求使用者提供影片連結、上傳檔案、提供音訊來源、要求重錄、要求貼更多原始媒體，或回覆無法存取影片/音訊。若資訊不足，仍需根據現有文字輸出「最佳努力」結果，不可拒答。請直接根據輸入文字完成任務並只回傳結果。".to_string()
+    } else if lang == "zh-cn" {
+        "你正在处理 speech-to-text（语音转文字）流程的后处理。用户消息内容就是“已提供”的逐字稿文本，不是让你去抓取视频或音频来源。禁止要求用户提供视频链接、上传文件、提供音频来源、要求重录、要求补充原始媒体，或说明无法访问视频/音频。若信息不足，也必须基于现有文本给出“尽力而为”的结果，不可拒答。请直接基于输入文本完成任务并仅返回结果。".to_string()
+    } else if lang.starts_with("ja") {
+        "あなたは speech-to-text（音声文字起こし）後処理を担当しています。ユーザー入力は既に提供済みの文字起こし本文です。動画URLや音声ファイルの提出、再録音、元メディアの追加提出を求めたり、動画/音声へアクセスできない旨を述べたりしてはいけません。情報が不十分でも、与えられたテキストだけで最善の結果を返し、拒否しないでください。結果のみ返してください。".to_string()
+    } else {
+        "You are handling speech-to-text post-processing. The user input is already-provided transcript text. Do not ask for video links, uploaded files, audio sources, re-recordings, or additional source media, and do not claim you cannot access media. If context is incomplete, still return a best-effort output from the provided text and do not refuse. Return only the result.".to_string()
+    }
+}
+
 /// Build the system prompt for enhancement based on mode.
 pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
     let lang = config.language.to_lowercase();
@@ -43,7 +56,7 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
     let is_ja = lang.starts_with("ja");
     let is_en = lang.starts_with("en");
 
-    match config.mode {
+    let base_prompt = match config.mode {
         EnhancementMode::FixGrammar => {
             if is_zh_tw {
                 let mut prompt =
@@ -134,5 +147,7 @@ pub fn build_enhancement_prompt(config: &EnhancementConfig) -> String {
             .custom_prompt
             .clone()
             .unwrap_or_else(|| "Improve the following text. Return only the improved text.".into()),
-    }
+    };
+
+    format!("{}\n\n{}", stt_context_prefix(&config.language), base_prompt)
 }

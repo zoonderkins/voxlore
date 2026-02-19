@@ -34,6 +34,7 @@ Hold the shortcut, speak, release, and Voxlore transcribes then inserts text bac
 - Optional preview before insert
 - Restore focus to target app and auto-paste
 - Text enhancement (punctuation, formatting, cleanup)
+- Forced speech-to-text context for enhancement to avoid "please provide video link/file" refusals
 - Taiwan slang lexicon normalization (e.g. `qq`/`哭哭` -> `😭`, `Y2K`, `Z世代`, `I人/E人`)
 - Floating widget for recording/processing status
 - Configurable cloud timeout, debug logging, right-click devtools

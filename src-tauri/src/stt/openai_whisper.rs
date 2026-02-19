@@ -30,7 +30,7 @@ impl OpenAiWhisperEngine {
         let lang = language.to_ascii_lowercase();
         if lang == "zh" || lang == "zh-tw" {
             Some(
-                "請輸出臺灣繁體中文逐字稿，只回傳辨識文字。若原音含英文句子、英文術語、產品名、API 名稱、程式碼或縮寫，請保留英文原文，不要翻譯。"
+                "這是 speech-to-text 情境。請輸出臺灣繁體中文逐字稿，只回傳辨識文字。禁止要求影片連結、上傳檔案或補充來源，也不要回覆無法存取影片或音訊。若原音含英文句子、英文術語、產品名、API 名稱、程式碼或縮寫，請保留英文原文，不要翻譯。"
                     .to_string(),
             )
         } else if lang.starts_with("ja") {
